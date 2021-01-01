@@ -12,5 +12,13 @@ namespace Raytracer.Math
             this.y = y;
             this.z = z;
         }
+
+        public static Vector operator+(Point p, Vector v) {
+            return new Vector(
+                v.x + p.x,
+                v.y + p.y,
+                v.z + p.z
+            );
+        }
     }
 }
