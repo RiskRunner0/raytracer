@@ -9,8 +9,8 @@
         public Vector(float x, float y, float z)
             : base(x, y, z) { }
 
-        public static Vector operator+(Vector v, Point p) {
-            return p + v;
+        public Vector Add(Point p) {
+            return p.Add(this);
         }
     }
 }
