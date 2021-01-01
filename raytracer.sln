@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Math", "Math\src\Math.csproj", "{48F2DBA2-4E52-4843-86A4-17E6D8CA1D37}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathTests", "Math\tst\MathTests.csproj", "{AE15F7FC-68E8-4CDA-83C5-4B273F459B65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathTests", "Math\tst\MathTests.csproj", "{086DF7B1-C415-4697-B8F7-A1A322DAC6D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{48F2DBA2-4E52-4843-86A4-17E6D8CA1D37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48F2DBA2-4E52-4843-86A4-17E6D8CA1D37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48F2DBA2-4E52-4843-86A4-17E6D8CA1D37}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE15F7FC-68E8-4CDA-83C5-4B273F459B65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE15F7FC-68E8-4CDA-83C5-4B273F459B65}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE15F7FC-68E8-4CDA-83C5-4B273F459B65}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE15F7FC-68E8-4CDA-83C5-4B273F459B65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{086DF7B1-C415-4697-B8F7-A1A322DAC6D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{086DF7B1-C415-4697-B8F7-A1A322DAC6D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{086DF7B1-C415-4697-B8F7-A1A322DAC6D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{086DF7B1-C415-4697-B8F7-A1A322DAC6D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
