@@ -30,5 +30,35 @@ namespace Raytracer.Math
                 a.w + b.w
             );
         }
+
+        public static Tuple operator-(Tuple a)
+        {
+            return new Tuple(
+                0 - a.x,
+                0 - a.y,
+                0 - a.z,
+                0 - a.w
+            );
+        }
+
+        public static Tuple operator*(Tuple a, double factor)
+        {
+            return new Tuple(
+                a.x * (float)factor,
+                a.y * (float)factor,
+                a.z * (float)factor,
+                a.w * (float)factor
+            );
+        }
+
+        public static Tuple operator/(Tuple a, double factor)
+        {
+            return new Tuple(
+                a.x / (float)factor,
+                a.y / (float)factor,
+                a.z / (float)factor,
+                a.w / (float)factor
+            );
+        }
     }
 }
