@@ -1,39 +1,28 @@
 namespace Raytracer.Math
 {
-    public class Point
+    public class Point : Tuple
     {
-        public float x { get; set; }
-        public float y { get; set; }
-        public float z { get; set; }
-
         public Point(float x, float y, float z)
+            : base(x, y, z, 1)
         {
-            this.x = x;
-            this.y = y;
-            this.z = z;
         }
 
-        public Vector Add(Vector v)
+        public static Vector operator-(Point a, Point b)
         {
             return new Vector(
-                v.x + this.x,
-                v.y + this.y,
-                v.z + this.z
+                a.x - b.x,
+                a.y - b.y,
+                a.z - b.z
             );
         }
 
-        public Point Subtract(Point p)
+        public static Point operator-(Point p, Vector v)
         {
-            float x = this.x - p.x;
-            float y = this.y - p.y;
-            float z = this.z - p.z;
-
-            if(p is Vector) 
-            {
-                return new Point(x, y, z);
-            }
-
-            return new Vector(x, y, z);
+            return new Point(
+                p.x - v.x,
+                p.y - v.y,
+                p.z - v.z
+            );
         }
     }
 }

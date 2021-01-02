@@ -1,16 +1,19 @@
-﻿namespace Raytracer.Math
+namespace Raytracer.Math
 {
-    using System;
-
-    public class Vector : Point
+    public class Vector : Tuple
     {
-        public float w { get; set; }
-
         public Vector(float x, float y, float z)
-            : base(x, y, z) { }
+            : base(x, y, z, 0)
+        {
+        }
 
-        public Vector Add(Point p) {
-            return p.Add(this);
+        public static Vector operator-(Vector a, Vector b)
+        {
+            return new Vector(
+                a.x - b.x,
+                a.y - b.y,
+                a.z - b.z
+            );
         }
     }
 }
