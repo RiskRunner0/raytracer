@@ -10,19 +10,11 @@ namespace RayTracer
         static void Main(string[] args)
         {
             IFileWriter writer = new PPMFileWriter();
-            var canvas = new Canvas(10, 2);
-            for(int y = 0; y < canvas.height; ++y)
-            {
-                for(int x = 0; x < canvas.width; ++x)
-                {
-                    canvas.UpdatePixel(x, y, new Color(1, 0.8, 0.6));
-                }
-            }
-            writer.WriteToFile(canvas);
+            var canvas = new Canvas(900, 550);
 
             var p = new Projectile(
                 new Point(0, 1, 0),
-                new Vector(1, 1, 0).NormalizedVector
+                new Vector(1, 1.8f, 0).NormalizedVector * 11.25
                 );
             var e = new Environment(
                 new Vector(0, (float)-0.1, 0),
@@ -33,8 +25,11 @@ namespace RayTracer
             while(p.position.y > 0)
             {
                 Console.WriteLine($"{counter++} - Pos: ({p.position.x}, {p.position.y}, {p.position.z}), Vel: ({p.velocity.x}, {p.velocity.y}, {p.velocity.z})");
+                canvas.UpdatePixel((int)Math.Floor(p.position.x), canvas.height - (int)Math.Floor(p.position.y), new Color(1, 0, 0));
                 p = tick(e, p);
             }
+
+            writer.WriteToFile(canvas);
         }
 
         static Projectile tick(Environment env, Projectile proj)
