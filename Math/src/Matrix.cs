@@ -29,6 +29,21 @@
 
         public float Get(int row, int column) => this.internalMatrix[row, column];
 
+        public Matrix Transpose()
+        {
+            var m = new Matrix(this.rows, this.columns);
+
+            for(int i = 0; i < m.rows; ++i)
+            {
+                for(int j = 0; j < m.columns; ++j)
+                {
+                    m.Set(i, j, this.Get(j, i));
+                }
+            }
+
+            return m;
+        }
+
         public static bool AreEqual(Matrix a, Matrix b)
         {
             if (a.rows != b.rows || a.columns != b.columns) return false;

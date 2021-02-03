@@ -113,5 +113,26 @@ namespace Raytracer.Math.Tests
 
             Assert.IsTrue(Matrix.AreEqual(a, a * Matrix.IdentityMatrix));
         }
+
+        [TestMethod]
+        public void TransposingMatrixResultsInCorrectMatrix()
+        {
+            var a = new Matrix(new float[,] {
+                { 0, 9, 3, 0 },
+                { 9, 8, 0, 8 },
+                { 1, 8, 5, 3 },
+                { 0, 0, 5, 8 }
+            });
+
+            var expected = new Matrix(new float[,] {
+                { 0, 9, 1, 0 },
+                { 9, 8, 8, 0 },
+                { 3, 0, 5, 5 },
+                { 0, 8, 3, 8 }
+            });         
+
+            var transposed = a.Transpose();
+            Assert.IsTrue(Matrix.AreEqual(transposed, expected));   
+        }
     }
 }
