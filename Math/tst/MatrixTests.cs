@@ -51,5 +51,67 @@ namespace Raytracer.Math.Tests
 
             Assert.IsFalse(Matrix.AreEqual(a, b));
         }
+
+        [TestMethod]
+        public void MatrixMathResultsInProperMath()
+        {
+            var a = new Matrix(new float[,] {
+                { 1, 2, 3, 4 },
+                { 5, 6, 7, 8 },
+                { 9, 8, 7, 6 },
+                { 5, 4, 3, 2 }
+            });
+
+            var b = new Matrix(new float[,] {
+                { -2, 1, 2, 3 },
+                { 3, 2, 1, -1 },
+                { 4, 3, 6, 5 },
+                { 1, 2, 7, 8 }
+            });
+
+            var expected = new Matrix(new float[,] {
+                { 20, 22, 50, 48 },
+                { 44, 54, 114, 108 },
+                { 40, 58, 110, 102 },
+                { 16, 26, 46, 42 }
+            });
+
+            Assert.IsTrue(Matrix.AreEqual(a * b, expected));
+        }
+
+        [TestMethod]
+        public void MatrixMathMultiplicationWithVectorResultsInProperMath()
+        {
+            var a = new Matrix(new float[,] {
+                { 1, 2, 3, 4 },
+                { 2, 4, 4, 2 },
+                { 8, 6, 4, 1 },
+                { 0, 0, 0, 1 }
+            });
+
+            var t = new Tuple(1, 2, 3, 1);
+
+            var result = a * t;
+
+            var expected = new Tuple(18, 24, 33, 1);
+
+            Assert.IsTrue(result.x == expected.x);
+            Assert.IsTrue(result.y == expected.y);
+            Assert.IsTrue(result.z == expected.z);
+            Assert.IsTrue(result.w == expected.w);
+        }
+
+        [TestMethod]
+        public void MultiplyingMatrixByIdentityMatrixGivesSameMatrix()
+        {
+            var a = new Matrix(new float[,] {
+                { 0, 1, 2, 4 },
+                { 1, 2, 4, 8 },
+                { 2, 4, 8, 16 },
+                { 4, 8, 16, 32 }
+            });
+
+            Assert.IsTrue(Matrix.AreEqual(a, a * Matrix.IdentityMatrix));
+        }
     }
 }

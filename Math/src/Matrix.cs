@@ -18,6 +18,13 @@
             :this(squareSize, squareSize)
         { }
 
+        public Matrix(float[,] matrix)
+        {
+            this.internalMatrix = matrix;
+            this.rows = matrix.GetLength(0);
+            this.columns = matrix.GetLength(1);
+        }
+
         public void Set(int row, int column, float value) => this.internalMatrix[row, column] = value;
 
         public float Get(int row, int column) => this.internalMatrix[row, column];
@@ -39,5 +46,48 @@
 
             return true;
         }
+
+        public static Matrix operator*(Matrix a, Matrix b)
+        {
+            var m = new Matrix(a.rows, b.columns);
+
+            for (int i = 0; i < m.rows; i++)
+            {
+                for (int j = 0; j < m.columns; j++)
+                {
+                    m.Set(i, j, 0f);
+                    
+                    for (int k = 0; k < a.columns; k++)
+                    {
+                        var curVal = m.Get(i, j);
+                        curVal += a.Get(i, k) * b.Get(k, j);
+                        m.Set(i, j, curVal);
+                    }
+                }
+            }
+
+            return m;
+        }
+
+        public static Tuple operator*(Matrix m, Tuple t)
+        {
+            var tAsMatrix = new Matrix(new float[,] {
+                { t.x },
+                { t.y },
+                { t.z },
+                { t.w }
+            });
+
+            var result = m * tAsMatrix;
+
+            return new Tuple(result.Get(0, 0), result.Get(1, 0), result.Get(2, 0), result.Get(3, 0));
+        }
+
+        public static Matrix IdentityMatrix => new Matrix(new float[,] {
+            {1, 0, 0, 0},
+            {0, 1, 0, 0},
+            {0, 0, 1, 0},
+            {0, 0, 0, 1},
+        });
     }
 }
