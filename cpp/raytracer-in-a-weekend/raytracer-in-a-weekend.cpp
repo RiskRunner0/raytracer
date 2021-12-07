@@ -6,6 +6,7 @@
 #include "color.h"
 #include "hittable-list.h"
 #include "sphere.h"
+#include "camera.h"
 
 #include <iostream>
 
@@ -28,6 +29,7 @@ int main()
 
     const int image_width = 400;
     const int image_height = static_cast<int>(image_width / aspectRatio);
+    const int samples_per_pixel = 100;
 
     // world
     hittable_list world;
@@ -35,14 +37,7 @@ int main()
     world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
 
     // Camera
-    auto viewportHeight = 2.0;
-    auto viewportWidth = aspectRatio * viewportHeight;
-    auto focalLength = 1.0;
-
-    auto origin = point3(0, 0, 0);
-    auto horizontal = vec3(viewportWidth, 0, 0);
-    auto vertical = vec3(0, viewportHeight, 0);
-    auto lowerLeftCorner = origin - horizontal / 2 - vertical / 2 - vec3(0, 0, focalLength);
+    camera cam;
 
     // Render
 
@@ -53,11 +48,15 @@ int main()
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for (int i = 0; i < image_width; ++i)
         {
-            auto u = double(i) / (image_width - 1);
-            auto v = double(j) / (image_height - 1);
-            ray r(origin, lowerLeftCorner + u * horizontal + v * vertical - origin);
-            color pixelColor = ray_color(r, world);
-            writeColor(std::cout, pixelColor);
+            color pixel_color(0, 0, 0);
+            for (int s = 0; s < samples_per_pixel; ++s) {
+                auto u = (i + random_double()) / (image_width - 1);
+                auto v = (j + random_double()) / (image_height - 1);
+                ray r = cam.get_ray(u, v);
+                pixel_color += ray_color(r, world);
+            }
+
+            write_color(std::cout, pixel_color, samples_per_pixel);
         }
     }
 
