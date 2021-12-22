@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 #include "../../vec3.h"
+#include "../../Math.h"
 #include "ToStringSpecializations.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -122,16 +123,40 @@ namespace VectorTests
 			vec3 v{ 4, 0, 0 };
 			auto expected = vec3{ 1, 0, 0 };
 			auto actual = v.normalize();
-
-			Assert::AreEqual(expected, actual);
-			Assert::AreEqual(1.0f, actual.magnitude());
+			
+			Assert::IsTrue(floatEqual(1.0f, actual.magnitude()));
 
 			v = vec3{ 1, 2, 3 };
-			expected = vec3{ 0.26726, 0.53452, 0.80178 };
+			expected = vec3{ 0.26726f, 0.53452f, 0.80178f };
 			actual = v.normalize();
+			
+			Assert::IsTrue(floatEqual(1.0f, actual.magnitude()));
+		}
+
+		TEST_METHOD(DotProduct)
+		{
+			vec3 a{ 1, 2, 3 };
+			vec3 b{ 2, 3, 4 };
+
+			auto expected = 20.0f;
+			auto actual = dot(a, b);
 
 			Assert::AreEqual(expected, actual);
-			Assert::AreEqual(1.0f, actual.magnitude());
+		}
+
+		TEST_METHOD(CrossProduct)
+		{
+			vec3 a{ 1, 2, 3 };
+			vec3 b{ 2, 3, 4 };
+
+			vec3 expected{ -1, 2, -1 };
+			auto actual = cross(a, b);
+
+			Assert::AreEqual(expected, actual);
+
+			expected = vec3{ 1, -2, 1 };
+			actual = cross(b, a);
+			Assert::AreEqual(expected, actual);
 		}
 	};
 }

@@ -2,10 +2,41 @@
 //
 
 #include <iostream>
+#include "vec3.h"
+
+class projectile {
+public:
+    projectile(point3 position, vec3 velocity) : position(position), velocity(velocity) {}
+    point3 position;
+    vec3 velocity;
+};
+
+class environment {
+public:
+    environment(vec3 g, vec3 w) : gravity(g), wind(w) {}
+    vec3 gravity;
+    vec3 wind;
+};
+
+projectile tick(environment e, projectile p)
+{
+    auto position = p.position + p.velocity;
+    auto velocity = p.velocity + e.gravity + e.wind;
+    return projectile{ position, velocity };
+}
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    projectile proj{ point3{0, 1, 0}, vec3{1, 1, 0}.normalize() };
+
+    environment env{ vec3{0, -0.1, 0}, vec3{-0.01, 0, 0} };
+
+    while (proj.position.y() > 0)
+    {
+        std::cout << "Position: " << proj.position.y() << std::endl;
+        proj = tick(env, proj);
+    }
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
