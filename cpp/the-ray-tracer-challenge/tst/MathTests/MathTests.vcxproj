@@ -165,8 +165,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\ToStringSpecializations.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="ToStringSpecializations.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

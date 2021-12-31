@@ -2,7 +2,7 @@
 #include "CppUnitTest.h"
 #include "../../vec3.h"
 #include "../../Math.h"
-#include "ToStringSpecializations.h"
+#include "../ToStringSpecializations.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
