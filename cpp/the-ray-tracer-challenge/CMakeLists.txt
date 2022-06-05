@@ -6,8 +6,10 @@ project(raytracer VERSION 0.1)
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin")
+# set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "bin")
 
-configure_file(RaytracerConfig.h.in RaytracerConfig.h)
+include_directories(src)
 
-add_executable(raytracer ./src/raytracer.cpp)
+add_subdirectory(src)
+add_subdirectory(tst)
+add_subdirectory(lib/googletest)

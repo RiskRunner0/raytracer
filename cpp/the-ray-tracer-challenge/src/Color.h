@@ -1,8 +1,9 @@
 #pragma once
-#include "Math.h"
 
 #ifndef COLOR_H
 #define COLOR_H
+
+#include "Math.h"
 
 class Color {
 public:
