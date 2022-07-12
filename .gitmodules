@@ -1,0 +1,3 @@
+[submodule "cpp/the-ray-tracer-challenge/googletest"]
+	path = cpp/the-ray-tracer-challenge/googletest
+	url = https://github.com/google/googletest.git
