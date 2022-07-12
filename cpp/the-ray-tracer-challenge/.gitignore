@@ -1,0 +1,7 @@
+*Cache.txt
+Makefile
+cmake_install.cmake
+CMakeFiles/
+.vscode/
+_deps/
+build/

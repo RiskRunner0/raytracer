@@ -1,8 +1,9 @@
 #pragma once
-#include "Color.h"
 
 #ifndef CANVAS_H
 #define CANVAS_H
+
+#include "Color.h"
 
 class Canvas {
 public:
