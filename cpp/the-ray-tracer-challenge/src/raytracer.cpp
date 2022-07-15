@@ -29,16 +29,16 @@ projectile tick(environment e, projectile p)
 
 int main()
 {
-    auto start = point3{ 0, 1, 0 };
-    auto vel = vec3{ 1, 1.8, 0 }.normalize() * 11.25;
+    auto start = point3{ 0.0, 1, 0.0 };
+    auto vel = vec3{ 1.0, 1.8, 0.0 }.normalize() * 11.25;
     projectile proj{ start, vel };
 
-    vec3 gravity = vec3{ 0, -0.1, 0 };
-    vec3 wind = vec3{ -0.01, 0, 0 };
+    vec3 gravity = vec3{ 0.0, -0.1, 0.0 };
+    vec3 wind = vec3{ -0.01, 0.0, 0.0 };
     environment env{ gravity, wind };
 
     Canvas c{ 900, 550 };
-    Color red{ 255, 0, 0 };
+    Color red{ 255, 0.0, 0.0 };
 
     int x, y;
     while (proj.position.y() > 0)

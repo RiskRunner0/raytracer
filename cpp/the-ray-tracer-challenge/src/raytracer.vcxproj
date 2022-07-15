@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{bda53226-5d5e-481d-aca6-3fd0eb2c5880}</ProjectGuid>
-    <RootNamespace>RayTracerChallenge</RootNamespace>
+    <ProjectGuid>{8720424d-419b-48b8-8cbf-f530a907f0fd}</ProjectGuid>
+    <RootNamespace>raytracer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -140,11 +140,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="RayTracerChallenge.cpp" />
+    <ClCompile Include="raytracer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="PPMFileWriter.h" />
     <ClInclude Include="vec3.h" />
