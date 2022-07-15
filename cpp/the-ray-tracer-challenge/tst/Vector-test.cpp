@@ -1,5 +1,5 @@
-#include "vec3.h"
-#include "Math.h"
+#include "../src/vec3.h"
+#include "../src/Math.h"
 #include "gtest/gtest.h"
 
 TEST(VectorTests, SubtractingPointsCreatesVector)

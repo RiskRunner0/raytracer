@@ -5,3 +5,4 @@ CMakeFiles/
 .vscode/
 _deps/
 build/
+packages/

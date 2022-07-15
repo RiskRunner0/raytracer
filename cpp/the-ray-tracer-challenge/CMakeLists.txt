@@ -12,7 +12,4 @@ include_directories(src)
 
 add_subdirectory(src)
 add_subdirectory(tst)
-add_subdirectory(googletest)
-include_directories(googletest/include)
-
-add_executable(raytracer src/raytracer.cpp)
+add_subdirectory(lib/googletest)
