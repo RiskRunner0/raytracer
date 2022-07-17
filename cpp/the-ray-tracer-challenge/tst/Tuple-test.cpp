@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 
 #include "../src/tuple.h"
+#include "../src/tuple.cpp"
 
 TEST(TupleTests, MultiplyByScalar) {
 	auto a = tuple{ 1, -2, 3, -4 };

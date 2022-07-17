@@ -141,7 +141,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Canvas.cpp" />
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="point3.cpp" />
+    <ClCompile Include="PPMFileWriter.cpp" />
     <ClCompile Include="raytracer.cpp" />
+    <ClCompile Include="tuple.cpp" />
+    <ClCompile Include="vec3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Canvas.h" />

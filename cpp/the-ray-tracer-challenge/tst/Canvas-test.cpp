@@ -1,6 +1,7 @@
 #include "../src/Canvas.h"
 #include "../src/Canvas.cpp"
 #include "../src/Color.h"
+#include "../src/Color.cpp"
 
 #include "gtest/gtest.h"
 

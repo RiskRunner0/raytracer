@@ -1,4 +1,5 @@
 #include "../src/Matrix.h"
+#include "../src/Matrix.cpp"
 
 #include "gtest/gtest.h"
 

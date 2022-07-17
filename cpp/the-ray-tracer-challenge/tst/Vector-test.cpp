@@ -1,5 +1,7 @@
 #include "../src/vec3.h"
+#include "../src/vec3.cpp"
 #include "../src/point3.h"
+#include "../src/point3.cpp"
 #include "../src/Math.h"
 #include "gtest/gtest.h"
 
