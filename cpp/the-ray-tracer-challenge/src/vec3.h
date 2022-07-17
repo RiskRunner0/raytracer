@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef VEC_H
-#define VEC_H
-
 #include "Math.h"
 #include "tuple.h"
 
@@ -45,8 +42,13 @@ vec3 operator+(const vec3& lhs, const vec3& rhs) {
 	};
 }
 
+inline
 vec3 operator-(const vec3& lhs, const vec3& rhs) {
 	return vec3{ (tuple)lhs - (tuple)rhs};
+}
+
+inline vec3 operator-(const vec3& element) {
+	return vec3{ -(tuple)element };
 }
 
 float vec3::dot(const vec3& b) const
@@ -63,5 +65,3 @@ vec3 vec3::cross(const vec3& b) const
 				 this->x() * b.y() - this->y() * b.x()
 	};
 }
-
-#endif

@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef PPMFILEWRITER_H
-#define PPMFILEWRITER_H
-
 #include "Canvas.h"
 #include <string>
 #include <iostream>
@@ -45,5 +42,3 @@ private:
 		stream << static_cast<int>(r) << " " << static_cast<int>(g) << " " << static_cast<int>(b) << " ";
 	}
 };
-
-#endif

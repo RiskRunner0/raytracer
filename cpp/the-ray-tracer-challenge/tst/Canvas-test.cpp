@@ -1,4 +1,5 @@
 #include "../src/Canvas.h"
+#include "../src/Canvas.cpp"
 #include "../src/Color.h"
 
 #include "gtest/gtest.h"

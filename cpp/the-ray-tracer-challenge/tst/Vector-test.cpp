@@ -11,6 +11,7 @@ TEST(VectorTests, SubtractingPointsCreatesVector)
 	vec3 expected{-2, -4, -6};
 
 	auto result = p1 - p2;
+	EXPECT_EQ(typeid(result), typeid(vec3));
 	EXPECT_EQ(expected, p1 - p2);
 }
 
@@ -20,7 +21,10 @@ TEST(VectorTests, SubtractingVectorFromPointCreatesPoint)
 	vec3 v{5, 6, 7};
 
 	point3 expected{-2, -4, -6};
-	EXPECT_EQ(expected, p - v);
+
+	auto result = p - v;
+	EXPECT_EQ(typeid(result), typeid(point3));
+	EXPECT_EQ(expected, result);
 }
 
 TEST(VectorTests, Subtracting2VectorsCreatesVector)
@@ -29,7 +33,10 @@ TEST(VectorTests, Subtracting2VectorsCreatesVector)
 	vec3 v2{5, 6, 7};
 
 	vec3 expected{-2, -4, -6};
-	EXPECT_EQ(expected, v1 - v2);
+	auto result = v1 - v2;
+
+	EXPECT_EQ(typeid(result), typeid(vec3));
+	EXPECT_EQ(expected, result);
 }
 
 TEST(VectorTests, SubtractingVectorFromZeroVectorNegatesVector)
@@ -46,7 +53,9 @@ TEST(VectorTests, NegatingVector)
 	vec3 a{1, -2, 3};
 	vec3 expected{-1, 2, -3};
 
-	EXPECT_EQ(expected, -a);
+	auto result = -a;
+	EXPECT_EQ(typeid(result), typeid(vec3));
+	EXPECT_EQ(expected, result);
 }
 
 TEST(VectorTests, ScalarMultiplication)
@@ -143,9 +152,12 @@ TEST(VectorTests, CrossProduct)
 	vec3 expected{-1, 2, -1};
 	auto actual = a.cross(b);
 
+	EXPECT_EQ(typeid(actual), typeid(vec3));
 	EXPECT_EQ(expected, actual);
 
 	expected = vec3{1, -2, 1};
 	actual = b.cross(a);
+
+	EXPECT_EQ(typeid(actual), typeid(vec3));
 	EXPECT_EQ(expected, actual);
 }

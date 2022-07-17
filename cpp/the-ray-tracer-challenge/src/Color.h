@@ -18,23 +18,28 @@ private:
 	float e[3];
 };
 
-inline bool operator==(const Color& lhs, const Color& rhs) {
+inline
+bool operator==(const Color& lhs, const Color& rhs) {
 	return floatEqual(lhs.r(), rhs.r()) && floatEqual(lhs.g(), rhs.g()) && floatEqual(lhs.b(), rhs.b());
 }
 
-inline Color operator+(const Color& a, const Color& b) {
+inline
+Color operator+(const Color& a, const Color& b) {
 	return Color{ a.r() + b.r(), a.g() + b.g(), a.b() + b.b() };
 }
 
-inline Color operator-(const Color& a, const Color& b) {
+inline
+Color operator-(const Color& a, const Color& b) {
 	return Color{ a.r() - b.r(), a.g() - b.g(), a.b() - b.b() };
 }
 
-inline Color operator*(const Color& a, const Color& b) {
+inline
+Color operator*(const Color& a, const Color& b) {
 	return Color{ a.r() * b.r(), a.g() * b.g(), a.b() * b.b() };
 }
 
-inline Color operator*(const Color& a, float scalar) {
+inline
+Color operator*(const Color& a, float scalar) {
 	return Color{ a.r() * scalar, a.g() * scalar, a.b() * scalar };
 }
 

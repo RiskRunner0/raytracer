@@ -8,8 +8,6 @@ public:
 	tuple(float x, float y, float z, float w);
 	tuple(const tuple& t);
 
-	virtual tuple operator+(const tuple& rhs) const;
-
 	virtual float x() const { return _e[0]; };
 	virtual float y() const { return _e[1]; };
 	virtual float z() const { return _e[2]; };
@@ -19,18 +17,21 @@ protected:
 	float _e[4]{};
 };
 
+inline
 tuple::tuple(float x, float y, float z, float w) : _e{ x, y, z, w } {};
 
+inline
 tuple::tuple(const tuple& t) : tuple(t.x(), t.y(), t.z(), t.w()) {
 	std::cout << "tuple copy" << std::endl;
 };
 
-tuple tuple::operator+(const tuple& rhs) const {
+inline
+tuple operator+(const tuple& lhs, const tuple& rhs) {
 	return tuple{
-		x() + rhs.x(),
-		y() + rhs.y(),
-		z() + rhs.z(),
-		w() + rhs.w()
+		lhs.x() + rhs.x(),
+		lhs.y() + rhs.y(),
+		lhs.z() + rhs.z(),
+		lhs.w() + rhs.w()
 	};
 }
 
