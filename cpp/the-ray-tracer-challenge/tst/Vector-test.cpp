@@ -1,4 +1,5 @@
 #include "../src/vec3.h"
+#include "../src/point3.h"
 #include "../src/Math.h"
 #include "gtest/gtest.h"
 
@@ -129,7 +130,7 @@ TEST(VectorTests, DotProduct)
 	vec3 b{2, 3, 4};
 
 	auto expected = 20.0f;
-	auto actual = dot(a, b);
+	auto actual = a.dot(b);
 
 	EXPECT_EQ(expected, actual);
 }
@@ -140,11 +141,11 @@ TEST(VectorTests, CrossProduct)
 	vec3 b{2, 3, 4};
 
 	vec3 expected{-1, 2, -1};
-	auto actual = cross(a, b);
+	auto actual = a.cross(b);
 
 	EXPECT_EQ(expected, actual);
 
 	expected = vec3{1, -2, 1};
-	actual = cross(b, a);
+	actual = b.cross(a);
 	EXPECT_EQ(expected, actual);
 }

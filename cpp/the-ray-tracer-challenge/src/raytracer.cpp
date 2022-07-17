@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "vec3.h"
+#include "point3.h"
 #include "PPMFileWriter.h"
 
 class projectile {
@@ -21,8 +22,8 @@ public:
 
 projectile tick(environment e, projectile p)
 {
-    auto position = p.position + p.velocity;
-    auto velocity = p.velocity + e.gravity + e.wind;
+    point3 position = p.position + p.velocity;
+    vec3 velocity = p.velocity + e.gravity + e.wind;
     return projectile{ position, velocity };
 }
 
@@ -30,11 +31,11 @@ projectile tick(environment e, projectile p)
 int main()
 {
     auto start = point3{ 0.0, 1, 0.0 };
-    auto vel = vec3{ 1.0, 1.8, 0.0 }.normalize() * 11.25;
+    auto vel = vec3{ 1.0f, 1.8f, 0.0f }.normalize() * 11.25;
     projectile proj{ start, vel };
 
-    vec3 gravity = vec3{ 0.0, -0.1, 0.0 };
-    vec3 wind = vec3{ -0.01, 0.0, 0.0 };
+    vec3 gravity = vec3{ 0.0f, -0.1f, 0.0f };
+    vec3 wind = vec3{ -0.01f, 0.0f, 0.0f };
     environment env{ gravity, wind };
 
     Canvas c{ 900, 550 };

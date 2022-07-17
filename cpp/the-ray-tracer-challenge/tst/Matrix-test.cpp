@@ -166,3 +166,8 @@ TEST(MatrixTests, Multiplication) {
 	EXPECT_EQ((*C)(3, 2), 46);
 	EXPECT_EQ((*C)(3, 3), 42);
 }
+
+TEST(MatrixTests, MultiplyByTuple)
+{
+
+}

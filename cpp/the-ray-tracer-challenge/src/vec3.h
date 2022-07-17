@@ -4,18 +4,19 @@
 #define VEC_H
 
 #include "Math.h"
+#include "tuple.h"
 
-class vec3 {
+#include <iostream>
+
+class vec3 : public tuple {
 public:
-	vec3(float x, float y, float z): _e{x, y, z}
-	{
-		_magnitude = sqrt(x * x + y * y + z * z);
-	}
+	vec3(float x, float y, float z);
 
-	float x() const { return _e[0]; }
-	float y() const { return _e[1]; }
-	float z() const { return _e[2]; }
+	vec3(tuple t);
+
 	float magnitude() const { return _magnitude; }
+	float dot(const vec3& rhs) const;
+	vec3  cross(const vec3& b) const;
 
 	vec3 normalize() const {
 		return vec3{
@@ -26,49 +27,41 @@ public:
 	}
 
 private:
-	float _e[3];
 	float _magnitude;
 };
 
-using point3 = vec3;
-
-inline vec3 operator+(const vec3& a, const vec3& b) {
-	return vec3{ a.x() + b.x(), a.y() + b.y(), a.z() + b.z() };
+vec3::vec3(float x, float y, float z) : tuple(x, y, z, 0.0f) {
+	_magnitude = sqrt(vec3::x() * vec3::x() + vec3::y() * vec3::y() + vec3::z() * vec3::z());
 }
 
-inline bool operator==(const vec3& lhs, const vec3& rhs) {
-	return floatEqual(lhs.x(), rhs.x()) && floatEqual(lhs.y(), rhs.y()) && floatEqual(lhs.z(), rhs.z());
+vec3::vec3(tuple t) : vec3(t.x(), t.y(), t.z()) {
+	std::cout << "vec3 tuple convert" << std::endl;
 }
 
-inline vec3 operator-(const vec3& a, const vec3& b) {
-	return vec3{ a.x() - b.x(), a.y() - b.y(), a.z() - b.z() };
+inline
+vec3 operator+(const vec3& lhs, const vec3& rhs) {
+	return vec3{
+		(tuple)(lhs) + tuple(rhs)
+	};
 }
 
-inline vec3 operator-(const vec3& a)
+vec3 operator-(const vec3& lhs, const vec3& rhs) {
+	return vec3{ (tuple)lhs - (tuple)rhs};
+}
+
+float vec3::dot(const vec3& b) const
 {
-	return vec3{ -a.x(), -a.y(), -a.z() };
+	return	x() * b.x() +
+			y() * b.y() +
+			z() * b.z();
 }
 
-inline vec3 operator*(const vec3& lhs, float rhs) {
-	return vec3{ lhs.x() * rhs, lhs.y() * rhs, lhs.z() * rhs };
-}
-
-inline vec3 operator/(const vec3& lhs, float rhs) {
-	return vec3{ lhs.x() / rhs, lhs.y() / rhs, lhs.z() / rhs };
-}
-
-inline float dot(const vec3& a, const vec3& b)
+vec3 vec3::cross(const vec3& b) const
 {
-	return	a.x() * b.x() +
-			a.y() * b.y() +
-			a.z() * b.z();
-}
-
-inline vec3 cross(const vec3& a, const vec3& b)
-{
-	return vec3{ a.y() * b.z() - a.z() * b.y(),
-				 a.z() * b.x() - a.x() * b.z(),
-				 a.x() * b.y() - a.y() * b.x() };
+	return vec3{ this->y() * b.z() - this->z() * b.y(),
+				 this->z() * b.x() - this->x() * b.z(),
+				 this->x() * b.y() - this->y() * b.x()
+	};
 }
 
 #endif
