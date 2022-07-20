@@ -19,7 +19,8 @@ Matrix::Matrix(const Matrix& m) : _rows(m.Rows()), _cols(m.Columns()), _data(new
 }
 
 Matrix::~Matrix() {
-	delete[] _data;
+	// TODO: how do I do this??
+	//delete[] _data;
 }
 
 unsigned Matrix::Rows() const {
@@ -28,6 +29,19 @@ unsigned Matrix::Rows() const {
 
 unsigned Matrix::Columns() const {
 	return _cols;
+}
+
+Matrix Matrix::transpose() const {
+	auto transposed = Matrix{ _cols, _rows };
+
+	for (unsigned r = 0; r < _rows; ++r)
+	{
+		for (unsigned c = 0; c < _cols; ++c) {
+			transposed(c, r) = (*this)(r, c);
+		}
+	}
+
+	return transposed;
 }
 
 float& Matrix::operator() (unsigned row, unsigned col) {
@@ -48,6 +62,10 @@ bool Matrix::operator== (const Matrix& b) const {
 	}
 
 	return true;
+}
+
+float Matrix::Determinant() const {
+	return (*this)(0, 0) * (*this)(1, 1) - (*this)(0, 1) * (*this)(1, 0);
 }
 
 bool Matrix::operator!= (const Matrix& b) const {
@@ -71,4 +89,22 @@ Matrix* Matrix::operator* (const Matrix& b) const {
 	}
 
 	return result;
+}
+
+
+tuple* Matrix::operator* (const tuple& b) const {
+	Matrix bMat{ 4, 1 };
+	bMat(0, 0) = b.x();
+	bMat(1, 0) = b.y();
+	bMat(2, 0) = b.z();
+	bMat(3, 0) = b.w();
+
+	Matrix* res = *this * bMat;
+
+	auto x = (*res)(0, 0);
+	auto y = (*res)(1, 0);
+	auto z = (*res)(2, 0);
+	auto w = (*res)(3, 0);
+
+	return new tuple{ x, y, z, w };
 }

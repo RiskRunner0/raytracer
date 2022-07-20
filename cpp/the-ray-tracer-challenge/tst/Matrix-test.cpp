@@ -1,5 +1,6 @@
 #include "../src/Matrix.h"
 #include "../src/Matrix.cpp"
+#include "../src/tuple.h"
 
 #include "gtest/gtest.h"
 
@@ -170,5 +171,132 @@ TEST(MatrixTests, Multiplication) {
 
 TEST(MatrixTests, MultiplyByTuple)
 {
+	Matrix A{ 4, 4 };
 
+	A(0, 0) = 1;
+	A(0, 1) = 2;
+	A(0, 2) = 3;
+	A(0, 3) = 4;
+	A(1, 0) = 2;
+	A(1, 1) = 4;
+	A(1, 2) = 4;
+	A(1, 3) = 2;
+	A(2, 0) = 8;
+	A(2, 1) = 6;
+	A(2, 2) = 4;
+	A(2, 3) = 1;
+	A(3, 0) = 0;
+	A(3, 1) = 0;
+	A(3, 2) = 0;
+	A(3, 3) = 1;
+
+	tuple b{ 1, 2, 3, 1 };
+
+	tuple expected{ 18, 24, 33, 1 };
+
+	auto result = A * b;
+
+	EXPECT_EQ(typeid(result), typeid(tuple*));
+	EXPECT_EQ(expected, *result);
+}
+
+TEST(MatrixTests, MultiplyingByIdentityGivesSameMatrix)
+{
+	Matrix A{ 4, 4 };
+
+	A(0, 0) = 0;
+	A(0, 1) = 1;
+	A(0, 2) = 2;
+	A(0, 3) = 4;
+	A(1, 0) = 1;
+	A(1, 1) = 2;
+	A(1, 2) = 4;
+	A(1, 3) = 8;
+	A(2, 0) = 2;
+	A(2, 1) = 4;
+	A(2, 2) = 8;
+	A(2, 3) = 16;
+	A(3, 0) = 4;
+	A(3, 1) = 8;
+	A(3, 2) = 16;
+	A(3, 3) = 32;
+
+	auto result = A * Matrix::Get4x4Identity();
+
+	EXPECT_EQ(typeid(result), typeid(Matrix*));
+	EXPECT_EQ(A, *result);
+}
+
+TEST(MatrixTests, MultiplyingIdentityMatrixByTupleGivesTuple)
+{
+	tuple a{ 1, 2, 3, 4 };
+
+	auto result = Matrix::Get4x4Identity() * a;
+
+	EXPECT_EQ(typeid(result), typeid(tuple*));
+	EXPECT_EQ(a, *result);
+}
+
+TEST(MatrixTests, Transpose)
+{
+	Matrix A{ 4, 4 };
+
+	A(0, 0) = 0;
+	A(0, 1) = 9;
+	A(0, 2) = 3;
+	A(0, 3) = 0;
+	A(1, 0) = 9;
+	A(1, 1) = 8;
+	A(1, 2) = 0;
+	A(1, 3) = 8;
+	A(2, 0) = 1;
+	A(2, 1) = 8;
+	A(2, 2) = 5;
+	A(2, 3) = 3;
+	A(3, 0) = 0;
+	A(3, 1) = 0;
+	A(3, 2) = 5;
+	A(3, 3) = 8;
+
+	Matrix expected{ 4, 4 };
+
+	expected(0, 0) = 0;
+	expected(0, 1) = 9;
+	expected(0, 2) = 1;
+	expected(0, 3) = 0;
+	expected(1, 0) = 9;
+	expected(1, 1) = 8;
+	expected(1, 2) = 8;
+	expected(1, 3) = 0;
+	expected(2, 0) = 3;
+	expected(2, 1) = 0;
+	expected(2, 2) = 5;
+	expected(2, 3) = 5;
+	expected(3, 0) = 0;
+	expected(3, 1) = 8;
+	expected(3, 2) = 3;
+	expected(3, 3) = 8;
+
+	auto result = A.transpose();
+
+	EXPECT_EQ(result, expected);
+}
+
+TEST(MatrixTests, TransposingIdentityYieldsIdentity)
+{
+	EXPECT_EQ(Matrix::Get4x4Identity().transpose(), Matrix::Get4x4Identity());
+}
+
+TEST(MatrixTests, Determinant)
+{
+	Matrix a{ 2, 2 };
+
+	a(0, 0) =  1;
+	a(0, 1) =  5;
+	a(1, 0) = -3;
+	a(1, 1) = 2;
+
+	auto det = a.Determinant();
+
+	EXPECT_EQ(det, 17);
 }
