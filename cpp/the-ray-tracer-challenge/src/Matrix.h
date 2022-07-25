@@ -13,6 +13,7 @@ public:
 
 	Matrix transpose() const;
 	float  Determinant() const;
+	float  Minor(unsigned row, unsigned col) const;
 
 	float&  operator() (unsigned row, unsigned col);		// set
 	float   operator() (unsigned row, unsigned col) const;	// get

@@ -1,5 +1,32 @@
 #include "Matrix.h"
 
+Matrix* submatrix(const Matrix& m, unsigned rowToRemove, unsigned colToRemove) {
+	Matrix* result = new Matrix{ m.Rows() - 1, m.Columns() - 1 };
+
+	unsigned wRow = 0;
+	unsigned wCol = 0;
+
+	for (unsigned rRow = 0; rRow < m.Rows(); ++rRow)
+	{
+		if (rRow == rowToRemove) continue;
+		wCol = 0;
+
+		for (unsigned rCol = 0; rCol < m.Columns(); ++rCol)
+		{
+			if (rCol == colToRemove) continue;
+
+			auto toWrite = m(rRow, rCol);
+			(*result)(wRow, wCol) = toWrite;
+
+			++wCol;
+		}
+
+		++wRow;
+	}
+
+	return result;
+}
+
 Matrix::Matrix(const unsigned rows, const unsigned cols) : _rows(rows), _cols(cols) {
 	_data = new float[_rows * _cols];
 
@@ -66,6 +93,10 @@ bool Matrix::operator== (const Matrix& b) const {
 
 float Matrix::Determinant() const {
 	return (*this)(0, 0) * (*this)(1, 1) - (*this)(0, 1) * (*this)(1, 0);
+}
+
+float Matrix::Minor(unsigned row, unsigned col) const {
+	return submatrix(*this, row, col)->Determinant();
 }
 
 bool Matrix::operator!= (const Matrix& b) const {

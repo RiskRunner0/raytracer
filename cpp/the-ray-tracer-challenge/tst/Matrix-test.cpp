@@ -300,3 +300,82 @@ TEST(MatrixTests, Determinant)
 
 	EXPECT_EQ(det, 17);
 }
+
+TEST(MatrixTests, Submatrix)
+{
+	Matrix a{ 3, 3 };
+
+	a(0, 0) =  1;
+	a(0, 1) =  5;
+	a(0, 2) =  0;
+	a(1, 0) = -3;
+	a(1, 1) =  2;
+	a(1, 2) =  7;
+	a(2, 0) =  0;
+	a(2, 1) =  6;
+	a(2, 2) = -3;
+	
+	Matrix expected{ 2, 2 };
+
+	expected(0, 0) = -3;
+	expected(0, 1) =  2;
+	expected(1, 0) =  0;
+	expected(1, 1) =  6;
+
+	Matrix* b = submatrix(a, 0, 2);
+
+	EXPECT_EQ(expected, *b);
+
+	// 4x4
+	a = Matrix{ 4, 4 };
+	a(0, 0) = -6;
+	a(0, 1) =  1;
+	a(0, 2) =  1;
+	a(0, 3) =  6;
+	a(1, 0) = -8;
+	a(1, 1) =  5;
+	a(1, 2) =  8;
+	a(1, 3) =  6;
+	a(2, 0) = -1;
+	a(2, 1) =  0;
+	a(2, 2) =  8;
+	a(2, 3) =  2;
+	a(3, 0) = -7;
+	a(3, 1) =  1;
+	a(3, 2) = -1;
+	a(3, 3) =  1;
+
+	expected = Matrix{ 3, 3 };
+	expected(0, 0) = -6;
+	expected(0, 1) =  1;
+	expected(0, 2) =  6;
+	expected(1, 0) = -8;
+	expected(1, 1) =  8;
+	expected(1, 2) =  6;
+	expected(2, 0) = -7;
+	expected(2, 1) = -1;
+	expected(2, 2) =  1;
+
+	b = submatrix(a, 2, 1);
+
+	EXPECT_EQ(expected, *b);
+}
+
+TEST(MatrixTests, Minors)
+{
+	Matrix a{ 3, 3 };
+
+	a(0, 0) = 3;
+	a(0, 1) = 5;
+	a(0, 2) = 0;
+	a(1, 0) = 2;
+	a(1, 1) = -1;
+	a(1, 2) = -7;
+	a(2, 0) = 6;
+	a(2, 1) = -1;
+	a(2, 2) = 5;
+
+	Matrix* b = submatrix(a, 1, 0);
+	EXPECT_EQ(b->Determinant(), 25);
+	EXPECT_EQ(a.Minor(1, 0), 25);
+}
