@@ -27,6 +27,27 @@ Matrix* submatrix(const Matrix& m, unsigned rowToRemove, unsigned colToRemove) {
 	return result;
 }
 
+Matrix* invert(const Matrix& m)
+{
+	float det = m.Determinant();
+	if (det == 0) return NULL;
+	
+	Matrix* result = new Matrix{ m.Rows(), m.Columns() };
+
+	// Calculate matrix of cofactors
+	for (unsigned r = 0; r < result->Rows(); ++r)
+	{
+		for (unsigned c = 0; c < result->Columns(); ++c)
+		{
+			float cf = m.Cofactor(r, c);
+
+			(*result)(c, r) = cf / det;
+		}
+	}
+
+	return result;
+}
+
 Matrix::Matrix(const unsigned rows, const unsigned cols) : _rows(rows), _cols(cols) {
 	_data = new float[_rows * _cols];
 
@@ -84,7 +105,12 @@ bool Matrix::operator== (const Matrix& b) const {
 
 	for (unsigned r = 0; r < Rows(); ++r) {
 		for (unsigned c = 0; c < Columns(); ++c) {
-			if (Matrix::operator()(r, c) != b(r, c)) return false;
+			auto aVal = (*this)(r, c);
+			auto bVal = b(r, c);
+			if (!floatEqual(aVal, bVal))
+			{
+				return false;
+			}
 		}
 	}
 
@@ -92,11 +118,30 @@ bool Matrix::operator== (const Matrix& b) const {
 }
 
 float Matrix::Determinant() const {
-	return (*this)(0, 0) * (*this)(1, 1) - (*this)(0, 1) * (*this)(1, 0);
+	if (_rows == 2 && _cols == 2)
+	{
+		return (*this)(0, 0) * (*this)(1, 1) - (*this)(0, 1) * (*this)(1, 0);
+	}
+
+	float det = 0;
+	
+	for (unsigned i = 0; i < _cols; ++i)
+	{
+		det += (*this)(0, i) * Cofactor(0, i);
+	}
+
+	return det;
 }
 
 float Matrix::Minor(unsigned row, unsigned col) const {
 	return submatrix(*this, row, col)->Determinant();
+}
+
+float Matrix::Cofactor(unsigned row, unsigned col) const {
+	auto minor = this->Minor(row, col);
+
+	// if row + col is odd, negate minor
+	return (row + col) % 2 == 0 ? minor : -minor;
 }
 
 bool Matrix::operator!= (const Matrix& b) const {
@@ -121,7 +166,6 @@ Matrix* Matrix::operator* (const Matrix& b) const {
 
 	return result;
 }
-
 
 tuple* Matrix::operator* (const tuple& b) const {
 	Matrix bMat{ 4, 1 };
