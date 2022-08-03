@@ -5,34 +5,22 @@
 
 class Matrix {
 public:
+	Matrix(unsigned size);
 	Matrix(unsigned rows, unsigned cols);
+	Matrix(unsigned rows, unsigned cols, float val);
+	Matrix(unsigned rows, unsigned cols, const float data[]);
 	Matrix(const Matrix& m);
 	~Matrix();
 
 	unsigned Rows() const;
 	unsigned Columns() const;
 
-	Matrix transpose() const;
 	float  Determinant() const;
 	float  Minor(unsigned row, unsigned col) const;
 	float  Cofactor(unsigned row, unsigned col) const;
 
 	float&  operator() (unsigned row, unsigned col);		// set
 	float   operator() (unsigned row, unsigned col) const;	// get
-	bool    operator== (const Matrix& b) const;
-	bool    operator!= (const Matrix& b) const;
-	Matrix* operator* (const Matrix& b) const;
-	tuple*  operator* (const tuple& b) const;
-
-	static Matrix Get4x4Identity() {
-		Matrix _4x4Identity{ 4, 4 };
-		_4x4Identity(0, 0) = 1;
-		_4x4Identity(1, 1) = 1;
-		_4x4Identity(2, 2) = 1;
-		_4x4Identity(3, 3) = 1;
-
-		return _4x4Identity;
-	}
 
 private:
 	unsigned _rows;

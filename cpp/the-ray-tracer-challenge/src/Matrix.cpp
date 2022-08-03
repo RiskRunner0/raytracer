@@ -1,4 +1,5 @@
 #include "Matrix.h"
+#include <cstdarg>
 
 Matrix* submatrix(const Matrix& m, unsigned rowToRemove, unsigned colToRemove) {
 	Matrix* result = new Matrix{ m.Rows() - 1, m.Columns() - 1 };
@@ -48,20 +49,50 @@ Matrix* invert(const Matrix& m)
 	return result;
 }
 
-Matrix::Matrix(const unsigned rows, const unsigned cols) : _rows(rows), _cols(cols) {
-	_data = new float[_rows * _cols];
+Matrix transpose(const Matrix& m) {
+	Matrix copied{ m.Columns(), m.Rows() };
 
-	for (unsigned r = 0; r < _rows; ++r) {
-		for (unsigned c = 0; c < _cols; ++c) {
-			_data[_rows * r + c] = 0.0;
+	for (unsigned r = 0; r < m.Rows(); ++r)
+	{
+		for (unsigned c = 0; c < m.Columns(); ++c) {
+			copied(c, r) = m(r, c);
 		}
 	}
+
+	return copied;
+}
+
+Matrix::Matrix(unsigned size) : Matrix(size, size)
+{
+}
+
+Matrix::Matrix(const unsigned rows, const unsigned cols) : Matrix(rows, cols, 0.0f) {
 }
 
 Matrix::Matrix(const Matrix& m) : _rows(m.Rows()), _cols(m.Columns()), _data(new float[_rows * _cols]) {
 	for (unsigned r = 0; r < Rows(); ++r) {
 		for (unsigned c = 0; c < Columns(); ++c) {
 			operator()(r, c) = m(r, c);
+		}
+	}
+}
+
+Matrix::Matrix(unsigned rows, unsigned cols, const float data[]) : _rows(rows), _cols(cols), _data(new float[rows * cols])
+{
+	for (unsigned r = 0; r < _rows; ++r) {
+		for (unsigned c = 0; c < _cols; ++c) {
+			_data[_rows * r + c] = data[_rows * r + c];
+		}
+	}
+}
+
+Matrix::Matrix(unsigned rows, unsigned cols, float val) : _rows(rows), _cols(cols), _data(new float[_rows * cols])
+{
+	_data = new float[_rows * _cols];
+
+	for (unsigned r = 0; r < _rows; ++r) {
+		for (unsigned c = 0; c < _cols; ++c) {
+			_data[_rows * r + c] = val;
 		}
 	}
 }
@@ -79,42 +110,12 @@ unsigned Matrix::Columns() const {
 	return _cols;
 }
 
-Matrix Matrix::transpose() const {
-	auto transposed = Matrix{ _cols, _rows };
-
-	for (unsigned r = 0; r < _rows; ++r)
-	{
-		for (unsigned c = 0; c < _cols; ++c) {
-			transposed(c, r) = (*this)(r, c);
-		}
-	}
-
-	return transposed;
-}
-
 float& Matrix::operator() (unsigned row, unsigned col) {
 	return _data[row * _cols + col];
 }
 
 float Matrix::operator() (unsigned row, unsigned col) const {
 	return _data[row * _cols + col];
-}
-
-bool Matrix::operator== (const Matrix& b) const {
-	if (b.Rows() != Columns() && b.Columns() != Columns()) return false;
-
-	for (unsigned r = 0; r < Rows(); ++r) {
-		for (unsigned c = 0; c < Columns(); ++c) {
-			auto aVal = (*this)(r, c);
-			auto bVal = b(r, c);
-			if (!floatEqual(aVal, bVal))
-			{
-				return false;
-			}
-		}
-	}
-
-	return true;
 }
 
 float Matrix::Determinant() const {
@@ -144,42 +145,67 @@ float Matrix::Cofactor(unsigned row, unsigned col) const {
 	return (row + col) % 2 == 0 ? minor : -minor;
 }
 
-bool Matrix::operator!= (const Matrix& b) const {
-	return !operator==(b);
+bool operator== (const Matrix& a, const Matrix& b) {
+	if (b.Rows() != a.Rows() && b.Columns() != a.Columns()) return false;
+
+	for (unsigned r = 0; r < a.Rows(); ++r) {
+		for (unsigned c = 0; c < a.Columns(); ++c) {
+			auto aVal = a(r, c);
+			auto bVal = b(r, c);
+			if (!floatEqual(aVal, bVal))
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
 }
 
-Matrix* Matrix::operator* (const Matrix& b) const {
-	Matrix* result = new Matrix{ Rows(), b.Columns() };
-	const unsigned length = result->Rows();
+bool operator!= (const Matrix& a, const Matrix& b) {
+	return !operator==(a, b);
+}
 
-	for (unsigned r = 0; r < result->Rows(); ++r) {
-		for (unsigned c = 0; c < result->Columns(); ++c) {
+Matrix operator* (const Matrix& a, const Matrix& b) {
+	Matrix result = Matrix{ a.Rows(), b.Columns() };
+	const unsigned length = result.Rows();
+
+	for (unsigned r = 0; r < result.Rows(); ++r) {
+		for (unsigned c = 0; c < result.Columns(); ++c) {
 			float sum = 0.0f;
 
 			for (unsigned i = 0; i < length; ++i) {
-				sum += operator()(r, i) * b(i, c);
+				sum += a(r, i) * b(i, c);
 			}
 
-			(*result)(r, c) = sum;
+			result(r, c) = sum;
 		}
 	}
 
 	return result;
 }
 
-tuple* Matrix::operator* (const tuple& b) const {
+tuple operator* (const Matrix& m, const tuple& t) {
 	Matrix bMat{ 4, 1 };
-	bMat(0, 0) = b.x();
-	bMat(1, 0) = b.y();
-	bMat(2, 0) = b.z();
-	bMat(3, 0) = b.w();
+	bMat(0, 0) = t.x();
+	bMat(1, 0) = t.y();
+	bMat(2, 0) = t.z();
+	bMat(3, 0) = t.w();
 
-	Matrix* res = *this * bMat;
+	Matrix res = m * bMat;
 
-	auto x = (*res)(0, 0);
-	auto y = (*res)(1, 0);
-	auto z = (*res)(2, 0);
-	auto w = (*res)(3, 0);
+	auto x = res(0, 0);
+	auto y = res(1, 0);
+	auto z = res(2, 0);
+	auto w = res(3, 0);
 
-	return new tuple{ x, y, z, w };
+	return tuple{ x, y, z, w };
 }
+
+static const float identityMatrixValues[] = {
+	1, 0, 0, 0,
+	0, 1, 0, 0,
+	0, 0, 1, 0,
+	0, 0, 0, 1,
+};
+static const Matrix IdentityMatrix4x4{ 4, 4, identityMatrixValues };

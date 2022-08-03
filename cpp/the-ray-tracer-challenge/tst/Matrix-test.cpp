@@ -6,7 +6,7 @@
 
 TEST(MatrixTests, GetAndSet)
 {
-	Matrix m{ 4, 4 };
+	Matrix m{ 4 };
 
 	m(0, 0) = 1;
 	m(0, 1) = 2;
@@ -45,64 +45,32 @@ TEST(MatrixTests, GetAndSet)
 
 TEST(MatrixTests, Comparisons)
 {
-	Matrix A{ 4, 4 };
+	float aData[] = { 
+		1,		2,		3,		4,
+		5.5,	6.5,	7.5,	8.5,
+		9,		10,		11,		12,
+		13.5,	14.5,	15.5,	16.5
+	};
+	Matrix A{ 4, 4, aData };
 
-	A(0, 0) = 1;
-	A(0, 1) = 2;
-	A(0, 2) = 3;
-	A(0, 3) = 4;
-	A(1, 0) = 5.5;
-	A(1, 1) = 6.5;
-	A(1, 2) = 7.5;
-	A(1, 3) = 8.5;
-	A(2, 0) = 9;
-	A(2, 1) = 10;
-	A(2, 2) = 11;
-	A(2, 3) = 12;
-	A(3, 0) = 13.5;
-	A(3, 1) = 14.5;
-	A(3, 2) = 15.5;
-	A(3, 3) = 16.5;
-
-	Matrix B{ 4, 4 };
-
-	B(0, 0) = 1;
-	B(0, 1) = 2;
-	B(0, 2) = 3;
-	B(0, 3) = 4;
-	B(1, 0) = 5.5;
-	B(1, 1) = 6.5;
-	B(1, 2) = 7.5;
-	B(1, 3) = 8.5;
-	B(2, 0) = 9;
-	B(2, 1) = 10;
-	B(2, 2) = 11;
-	B(2, 3) = 12;
-	B(3, 0) = 13.5;
-	B(3, 1) = 14.5;
-	B(3, 2) = 15.5;
-	B(3, 3) = 16.5;
+	float bData[] = {
+		1,		2,		3,		4,
+		5.5,	6.5,	7.5,	8.5,
+		9,		10,		11,		12,
+		13.5,	14.5,	15.5,	16.5
+	};
+	Matrix B{ 4, 4, bData };
 	
 	EXPECT_TRUE(A == B);
 
-	Matrix C{ 4, 4 };
+	float cData[] = {
+		1,		2,		3,		4,
+		5.5,	6.5,	7.5,	8.5,
+		9,		10,		11,		12,
+		13.5,	14.5,	15.5,	17.5
+	};
 
-	C(0, 0) = 1;
-	C(0, 1) = 2;
-	C(0, 2) = 3;
-	C(0, 3) = 4;
-	C(1, 0) = 5.5;
-	C(1, 1) = 6.5;
-	C(1, 2) = 7.5;
-	C(1, 3) = 8.5;
-	C(2, 0) = 9;
-	C(2, 1) = 10;
-	C(2, 2) = 11;
-	C(2, 3) = 12;
-	C(3, 0) = 13.5;
-	C(3, 1) = 14.5;
-	C(3, 2) = 15.5;
-	C(3, 3) = 17.5;
+	Matrix C{ 4, 4, cData };
 
 	EXPECT_TRUE(B != C);
 }
@@ -146,27 +114,27 @@ TEST(MatrixTests, Multiplication) {
 	B(3, 2) =  7;
 	B(3, 3) =  8;
 
-	Matrix* C =  A * B;
+	Matrix C =  A * B;
 
-	EXPECT_EQ(C->Rows(), A.Rows());
-	EXPECT_EQ(C->Columns(), B.Columns());
+	EXPECT_EQ(C.Rows(), A.Rows());
+	EXPECT_EQ(C.Columns(), B.Columns());
 
-	EXPECT_EQ((*C)(0, 0), 20);
-	EXPECT_EQ((*C)(0, 1), 22);
-	EXPECT_EQ((*C)(0, 2), 50);
-	EXPECT_EQ((*C)(0, 3), 48);
-	EXPECT_EQ((*C)(1, 0), 44);
-	EXPECT_EQ((*C)(1, 1), 54);
-	EXPECT_EQ((*C)(1, 2), 114);
-	EXPECT_EQ((*C)(1, 3), 108);
-	EXPECT_EQ((*C)(2, 0), 40);
-	EXPECT_EQ((*C)(2, 1), 58);
-	EXPECT_EQ((*C)(2, 2), 110);
-	EXPECT_EQ((*C)(2, 3), 102);
-	EXPECT_EQ((*C)(3, 0), 16);
-	EXPECT_EQ((*C)(3, 1), 26);
-	EXPECT_EQ((*C)(3, 2), 46);
-	EXPECT_EQ((*C)(3, 3), 42);
+	EXPECT_EQ(C(0, 0), 20);
+	EXPECT_EQ(C(0, 1), 22);
+	EXPECT_EQ(C(0, 2), 50);
+	EXPECT_EQ(C(0, 3), 48);
+	EXPECT_EQ(C(1, 0), 44);
+	EXPECT_EQ(C(1, 1), 54);
+	EXPECT_EQ(C(1, 2), 114);
+	EXPECT_EQ(C(1, 3), 108);
+	EXPECT_EQ(C(2, 0), 40);
+	EXPECT_EQ(C(2, 1), 58);
+	EXPECT_EQ(C(2, 2), 110);
+	EXPECT_EQ(C(2, 3), 102);
+	EXPECT_EQ(C(3, 0), 16);
+	EXPECT_EQ(C(3, 1), 26);
+	EXPECT_EQ(C(3, 2), 46);
+	EXPECT_EQ(C(3, 3), 42);
 }
 
 TEST(MatrixTests, MultiplyByTuple)
@@ -196,8 +164,8 @@ TEST(MatrixTests, MultiplyByTuple)
 
 	auto result = A * b;
 
-	EXPECT_EQ(typeid(result), typeid(tuple*));
-	EXPECT_EQ(expected, *result);
+	EXPECT_EQ(typeid(result), typeid(tuple));
+	EXPECT_EQ(expected, result);
 }
 
 TEST(MatrixTests, MultiplyingByIdentityGivesSameMatrix)
@@ -221,20 +189,20 @@ TEST(MatrixTests, MultiplyingByIdentityGivesSameMatrix)
 	A(3, 2) = 16;
 	A(3, 3) = 32;
 
-	auto result = A * Matrix::Get4x4Identity();
+	auto result = A * IdentityMatrix4x4;
 
-	EXPECT_EQ(typeid(result), typeid(Matrix*));
-	EXPECT_EQ(A, *result);
+	EXPECT_EQ(typeid(result), typeid(Matrix));
+	EXPECT_EQ(A, result);
 }
 
 TEST(MatrixTests, MultiplyingIdentityMatrixByTupleGivesTuple)
 {
 	tuple a{ 1, 2, 3, 4 };
 
-	auto result = Matrix::Get4x4Identity() * a;
+	auto result = IdentityMatrix4x4 * a;
 
-	EXPECT_EQ(typeid(result), typeid(tuple*));
-	EXPECT_EQ(a, *result);
+	EXPECT_EQ(typeid(result), typeid(tuple));
+	EXPECT_EQ(a, result);
 }
 
 TEST(MatrixTests, Transpose)
@@ -277,14 +245,12 @@ TEST(MatrixTests, Transpose)
 	expected(3, 2) = 3;
 	expected(3, 3) = 8;
 
-	auto result = A.transpose();
-
-	EXPECT_EQ(result, expected);
+	EXPECT_EQ(transpose(A), expected);
 }
 
 TEST(MatrixTests, TransposingIdentityYieldsIdentity)
 {
-	EXPECT_EQ(Matrix::Get4x4Identity().transpose(), Matrix::Get4x4Identity());
+	EXPECT_EQ(transpose(IdentityMatrix4x4), IdentityMatrix4x4);
 }
 
 TEST(MatrixTests, Determinant)
@@ -655,8 +621,8 @@ TEST(MatrixTests, MultiplicativeProperty)
 	b(3, 2) = 0;
 	b(3, 3) = 5;
 
-	Matrix* c = a * b;
+	Matrix c = a * b;
 
-	Matrix* result = (*c) * (*invert(b));
-	EXPECT_EQ(*result, a);
+	Matrix result = c * (*invert(b));
+	EXPECT_EQ(result, a);
 }
