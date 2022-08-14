@@ -146,6 +146,7 @@
     <ClCompile Include="point3.cpp" />
     <ClCompile Include="PPMFileWriter.cpp" />
     <ClCompile Include="raytracer.cpp" />
+    <ClCompile Include="Translation.cpp" />
     <ClCompile Include="tuple.cpp" />
     <ClCompile Include="vec3.cpp" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="point3.h" />
     <ClInclude Include="PPMFileWriter.h" />
+    <ClInclude Include="Translation.h" />
     <ClInclude Include="tuple.h" />
     <ClInclude Include="vec3.h" />
   </ItemGroup>

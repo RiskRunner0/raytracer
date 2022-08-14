@@ -5,6 +5,9 @@
 #include "vec3.h"
 #include "point3.h"
 #include "PPMFileWriter.h"
+#include "Translation.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 class projectile {
 public:
@@ -30,29 +33,24 @@ projectile tick(environment e, projectile p)
 
 int main()
 {
-    auto start = point3{ 0.0, 1, 0.0 };
-    auto vel = vec3{ 1.0f, 1.8f, 0.0f }.normalize() * 11.25;
-    projectile proj{ start, vel };
+    // create new canvas
+    Canvas c{ 100, 100 };
 
-    vec3 gravity = vec3{ 0.0f, -0.1f, 0.0f };
-    vec3 wind = vec3{ -0.01f, 0.0f, 0.0f };
-    environment env{ gravity, wind };
+    Color white{255, 255, 255};
 
-    Canvas c{ 900, 550 };
-    Color red{ 255, 0.0, 0.0 };
+    auto translate = translation(50, 50, 0);
+    auto rotate = rotation_z((float)M_PI / 6.0f);
+    point3 mid{ 50, 50, 0 };
+    point3 curr{ 0, 25, 0 };
 
-    int x, y;
-    while (proj.position.y() > 0)
-    {
-        std::cout << "Position: " << proj.position.y() << std::endl;
-        x = static_cast<int>(proj.position.x());
-        y = static_cast<int>(proj.position.y());
-        c.writePixel(x, c.height() - y, red);
-        proj = tick(env, proj);
+    for (int i = 0; i < 12; ++i) {
+        auto moved = translate * curr;
+        c.writePixel(moved.x(), moved.y(), white);
+        curr = rotate * curr;
     }
 
     PPMFileWriter fileWriter{};
-    fileWriter.WriteToPPMFile(c, "test.ppm");
+    fileWriter.WriteToPPMFile(c, "clock.ppm");
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

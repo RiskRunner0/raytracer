@@ -431,7 +431,7 @@ TEST(MatrixTests, CanInvert)
 	a(3, 2) = 7;
 	a(3, 3) = -6;
 
-	EXPECT_TRUE(invert(a) != NULL);
+	EXPECT_TRUE(inverse(a) != NULL);
 }
 
 TEST(MatrixTests, CanNotInvert)
@@ -454,7 +454,7 @@ TEST(MatrixTests, CanNotInvert)
 	a(3, 2) = 0;
 	a(3, 3) = 0;
 
-	EXPECT_TRUE(invert(a) == NULL);
+	EXPECT_TRUE(inverse(a) == NULL);
 }
 
 TEST(MatrixTests, Invert)
@@ -477,7 +477,7 @@ TEST(MatrixTests, Invert)
 	a(3, 2) = 7;
 	a(3, 3) = 4;
 
-	Matrix* b = invert(a);
+	Matrix* b = inverse(a);
 
 	EXPECT_TRUE(b != NULL);
 	EXPECT_EQ(a.Determinant(), 532);
@@ -523,7 +523,7 @@ TEST(MatrixTests, Invert)
 	a(3, 2) = -9;
 	a(3, 3) = -4;
 
-	b = invert(a);
+	b = inverse(a);
 
 	expected(0, 0) = -0.15385f;
 	expected(0, 1) = -0.15385f;
@@ -561,7 +561,7 @@ TEST(MatrixTests, Invert)
 	a(3, 2) = 6;
 	a(3, 3) = 2;
 
-	b = invert(a);
+	b = inverse(a);
 
 	expected(0, 0) = -0.04074f;
 	expected(0, 1) = -0.07778f;
@@ -623,6 +623,6 @@ TEST(MatrixTests, MultiplicativeProperty)
 
 	Matrix c = a * b;
 
-	Matrix result = c * (*invert(b));
+	Matrix result = c * (*inverse(b));
 	EXPECT_EQ(result, a);
 }

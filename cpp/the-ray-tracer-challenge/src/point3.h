@@ -5,6 +5,8 @@
 
 class point3 : public tuple {
 public:
+	point3(int x, int y, int z);
+	point3(double x, double y, double z);
 	point3(float x, float y, float z);
 	point3(tuple t);
 

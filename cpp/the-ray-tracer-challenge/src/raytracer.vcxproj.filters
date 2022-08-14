@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Spacial">
+      <UniqueIdentifier>{900ec884-b0f8-4f87-97c2-a941cec646b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="raytracer.cpp">
@@ -27,6 +30,9 @@
     <ClCompile Include="Matrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PPMFileWriter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="point3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -36,7 +42,7 @@
     <ClCompile Include="vec3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PPMFileWriter.cpp">
+    <ClCompile Include="Translation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,16 +59,19 @@
     <ClInclude Include="PPMFileWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="vec3.h">
+    <ClInclude Include="Matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix.h">
+    <ClInclude Include="point3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tuple.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="point3.h">
+    <ClInclude Include="vec3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Translation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

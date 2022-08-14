@@ -20,7 +20,12 @@ public:
 	tuple operator*(float rhs) const;
 	tuple operator/(float rhs) const;
 
-
 protected:
 	float _e[4]{};
 };
+
+inline
+std::ostream& operator<<(std::ostream& os, const tuple& t)
+{
+	return os << "[ " << t.x() << ", " << t.y() << ", " << t.z() << ", " << t.w() << " ]";
+}

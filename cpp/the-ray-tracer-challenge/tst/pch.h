@@ -13,3 +13,5 @@
 #include "../src/point3.h"
 #include "../src/point3.cpp"
 #include "../src/Math.h"
+#include "../src/Translation.h"
+#include "../src/Translation.cpp"

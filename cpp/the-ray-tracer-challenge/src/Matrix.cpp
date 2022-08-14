@@ -1,5 +1,4 @@
 #include "Matrix.h"
-#include <cstdarg>
 
 Matrix* submatrix(const Matrix& m, unsigned rowToRemove, unsigned colToRemove) {
 	Matrix* result = new Matrix{ m.Rows() - 1, m.Columns() - 1 };
@@ -28,7 +27,7 @@ Matrix* submatrix(const Matrix& m, unsigned rowToRemove, unsigned colToRemove) {
 	return result;
 }
 
-Matrix* invert(const Matrix& m)
+Matrix* inverse(const Matrix& m)
 {
 	float det = m.Determinant();
 	if (det == 0) return NULL;
@@ -81,9 +80,12 @@ Matrix::Matrix(unsigned rows, unsigned cols, const float data[]) : _rows(rows), 
 {
 	for (unsigned r = 0; r < _rows; ++r) {
 		for (unsigned c = 0; c < _cols; ++c) {
-			_data[_rows * r + c] = data[_rows * r + c];
+			auto read = data[_rows * r + c];
+			_data[_rows * r + c] = read;
 		}
 	}
+
+	std::cout << *this;
 }
 
 Matrix::Matrix(unsigned rows, unsigned cols, float val) : _rows(rows), _cols(cols), _data(new float[_rows * cols])
@@ -144,68 +146,3 @@ float Matrix::Cofactor(unsigned row, unsigned col) const {
 	// if row + col is odd, negate minor
 	return (row + col) % 2 == 0 ? minor : -minor;
 }
-
-bool operator== (const Matrix& a, const Matrix& b) {
-	if (b.Rows() != a.Rows() && b.Columns() != a.Columns()) return false;
-
-	for (unsigned r = 0; r < a.Rows(); ++r) {
-		for (unsigned c = 0; c < a.Columns(); ++c) {
-			auto aVal = a(r, c);
-			auto bVal = b(r, c);
-			if (!floatEqual(aVal, bVal))
-			{
-				return false;
-			}
-		}
-	}
-
-	return true;
-}
-
-bool operator!= (const Matrix& a, const Matrix& b) {
-	return !operator==(a, b);
-}
-
-Matrix operator* (const Matrix& a, const Matrix& b) {
-	Matrix result = Matrix{ a.Rows(), b.Columns() };
-	const unsigned length = result.Rows();
-
-	for (unsigned r = 0; r < result.Rows(); ++r) {
-		for (unsigned c = 0; c < result.Columns(); ++c) {
-			float sum = 0.0f;
-
-			for (unsigned i = 0; i < length; ++i) {
-				sum += a(r, i) * b(i, c);
-			}
-
-			result(r, c) = sum;
-		}
-	}
-
-	return result;
-}
-
-tuple operator* (const Matrix& m, const tuple& t) {
-	Matrix bMat{ 4, 1 };
-	bMat(0, 0) = t.x();
-	bMat(1, 0) = t.y();
-	bMat(2, 0) = t.z();
-	bMat(3, 0) = t.w();
-
-	Matrix res = m * bMat;
-
-	auto x = res(0, 0);
-	auto y = res(1, 0);
-	auto z = res(2, 0);
-	auto w = res(3, 0);
-
-	return tuple{ x, y, z, w };
-}
-
-static const float identityMatrixValues[] = {
-	1, 0, 0, 0,
-	0, 1, 0, 0,
-	0, 0, 1, 0,
-	0, 0, 0, 1,
-};
-static const Matrix IdentityMatrix4x4{ 4, 4, identityMatrixValues };
