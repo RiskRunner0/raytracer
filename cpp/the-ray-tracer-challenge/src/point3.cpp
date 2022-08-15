@@ -16,8 +16,3 @@ inline
 point3 point3::operator-(const vec3& rhs) const {
 	return point3{ (tuple)(*this) - (tuple)rhs };
 }
-
-inline
-vec3 point3::operator-(const point3& rhs) const {
-	return point3{ (tuple)(*this) - (tuple)rhs};
-}

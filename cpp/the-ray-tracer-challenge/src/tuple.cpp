@@ -6,7 +6,6 @@ tuple::tuple(float x, float y, float z, float w) : _e{ x, y, z, w }
 
 tuple::tuple(const tuple& t) : tuple(t.x(), t.y(), t.z(), t.w())
 {
-	std::cout << "tuple copy" << std::endl;
 };
 
 float tuple::x() const { return _e[0]; };

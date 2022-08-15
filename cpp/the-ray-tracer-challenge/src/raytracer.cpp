@@ -8,6 +8,8 @@
 #include "Translation.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include "Sphere.h"
+#include "Intersection.h"
 
 class projectile {
 public:
@@ -33,24 +35,14 @@ projectile tick(environment e, projectile p)
 
 int main()
 {
-    // create new canvas
-    Canvas c{ 100, 100 };
+    ray r{ point3{0, 0, -5}, vec3{0, 0, 1} };
+    Sphere s{};
+    s.SetTransformation(scaling(2, 2, 2));
+    auto xs = intersect(s, r);
 
-    Color white{255, 255, 255};
-
-    auto translate = translation(50, 50, 0);
-    auto rotate = rotation_z((float)M_PI / 6.0f);
-    point3 mid{ 50, 50, 0 };
-    point3 curr{ 0, 25, 0 };
-
-    for (int i = 0; i < 12; ++i) {
-        auto moved = translate * curr;
-        c.writePixel(moved.x(), moved.y(), white);
-        curr = rotate * curr;
-    }
-
-    PPMFileWriter fileWriter{};
-    fileWriter.WriteToPPMFile(c, "clock.ppm");
+    bool eq = xs.size() == 2;
+    eq = xs[0].t == 3;
+    eq = xs[1].t == 7;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

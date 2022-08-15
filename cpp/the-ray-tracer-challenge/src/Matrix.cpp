@@ -84,8 +84,6 @@ Matrix::Matrix(unsigned rows, unsigned cols, const float data[]) : _rows(rows), 
 			_data[_rows * r + c] = read;
 		}
 	}
-
-	std::cout << *this;
 }
 
 Matrix::Matrix(unsigned rows, unsigned cols, float val) : _rows(rows), _cols(cols), _data(new float[_rows * cols])

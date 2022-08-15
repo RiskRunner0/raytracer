@@ -12,5 +12,9 @@ public:
 
 	point3 operator+(const vec3& rhs) const;
 	point3 operator-(const vec3& rhs) const;
-	vec3   operator-(const point3& rhs) const;
 };
+
+inline
+vec3 operator-(const point3& lhs, const point3& rhs) {
+	return point3{ (tuple)(lhs) - (tuple)rhs };
+}

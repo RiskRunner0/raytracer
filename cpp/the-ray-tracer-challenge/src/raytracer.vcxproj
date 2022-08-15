@@ -143,9 +143,12 @@
     <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="Intersection.cpp" />
     <ClCompile Include="point3.cpp" />
     <ClCompile Include="PPMFileWriter.cpp" />
+    <ClCompile Include="Ray.cpp" />
     <ClCompile Include="raytracer.cpp" />
+    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Translation.cpp" />
     <ClCompile Include="tuple.cpp" />
     <ClCompile Include="vec3.cpp" />
@@ -153,10 +156,14 @@
   <ItemGroup>
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Intersection.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="point3.h" />
     <ClInclude Include="PPMFileWriter.h" />
+    <ClInclude Include="Ray.h" />
+    <ClInclude Include="Sphere.h" />
     <ClInclude Include="Translation.h" />
     <ClInclude Include="tuple.h" />
     <ClInclude Include="vec3.h" />

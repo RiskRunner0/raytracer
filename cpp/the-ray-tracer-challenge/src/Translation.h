@@ -2,6 +2,7 @@
 
 #include "Matrix.h"
 #include "point3.h"
+#include "Ray.h"
 
 Matrix translation(float x, float y, float z);
 

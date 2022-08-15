@@ -5,7 +5,6 @@ vec3::vec3(float x, float y, float z) : tuple(x, y, z, 0.0f) {
 }
 
 vec3::vec3(tuple t) : vec3(t.x(), t.y(), t.z()) {
-	std::cout << "vec3 tuple convert" << std::endl;
 }
 
 float vec3::magnitude() const { return _magnitude; }
