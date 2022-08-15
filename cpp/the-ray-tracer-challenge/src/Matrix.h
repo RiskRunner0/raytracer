@@ -4,6 +4,7 @@
 #include "vec3.h"
 #include "Math.h"
 #include "point3.h"
+#include <vector>
 
 class Matrix {
 public:
@@ -17,7 +18,7 @@ public:
 	unsigned Rows() const;
 	unsigned Columns() const;
 
-	float  Determinant() const;
+	float  Determinant();
 	float  Minor(unsigned row, unsigned col) const;
 	float  Cofactor(unsigned row, unsigned col) const;
 
@@ -29,7 +30,10 @@ public:
 private:
 	unsigned _rows;
 	unsigned _cols;
-	float* _data;
+	std::vector<float> _data;
+
+	bool isDetCached = false;
+	float det = 0;
 };
 
 Matrix* submatrix(const Matrix& m, unsigned rowToRemove, unsigned colToRemove);

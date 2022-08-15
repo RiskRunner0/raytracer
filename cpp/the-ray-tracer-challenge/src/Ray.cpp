@@ -16,7 +16,10 @@ point3 position(ray r, float t) {
 }
 
 std::vector<Intersection> intersect(Sphere& s, ray& r) {
-	ray r2 = transform(r, *inverse(*s.Transformation()));
+	Matrix* inverseMat = inverse(*s.Transformation());
+	ray r2 = transform(r, *inverseMat);
+	delete inverseMat;
+
 	auto sphereToRay = r2.Origin() - point3{ 0, 0, 0 };
 
 	auto a = r2.Direction().dot(r2.Direction());
