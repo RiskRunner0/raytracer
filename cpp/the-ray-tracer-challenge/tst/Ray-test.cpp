@@ -161,31 +161,31 @@ TEST(RayTests, HitAlwaysLowestNonNegativeNumber)
 	EXPECT_EQ(*i, i4);
 }
 
-//TEST(RayTests, TranslatingRay)
-//{
-//	ray r{ point3{1, 2, 3}, vec3{0, 1, 0} };
-//	auto m = translation(3, 4, 5);
-//	auto r2 = transform(r, m);
-//	
-//	point3 expectedPt{ 4, 6, 8 };
-//	EXPECT_EQ(r2.Origin(), expectedPt);
-//
-//	vec3 expectedVec{ 0, 1, 0 };
-//	EXPECT_EQ(r2.Direction(), expectedVec);
-//}
-//
-//TEST(RayTests, ScalingRay)
-//{
-//	ray r{ point3{1, 2, 3}, vec3{0, 1, 0} };
-//	auto m = scaling(2, 3, 4);
-//	auto r2 = transform(r, m);
-//
-//	point3 expectedPt{ 2, 6, 12 };
-//	EXPECT_EQ(r2.Origin(), expectedPt);
-//
-//	vec3 expectedVec{ 0, 3, 0 };
-//	EXPECT_EQ(r2.Direction(), expectedVec);
-//}
+TEST(RayTests, TranslatingRay)
+{
+	ray r{ point3{1, 2, 3}, vec3{0, 1, 0} };
+	auto m = translation(3, 4, 5);
+	auto r2 = transform(r, m);
+	
+	point3 expectedPt{ 4, 6, 8 };
+	EXPECT_EQ(r2.Origin(), expectedPt);
+
+	vec3 expectedVec{ 0, 1, 0 };
+	EXPECT_EQ(r2.Direction(), expectedVec);
+}
+
+TEST(RayTests, ScalingRay)
+{
+	ray r{ point3{1, 2, 3}, vec3{0, 1, 0} };
+	auto m = scaling(2, 3, 4);
+	auto r2 = transform(r, m);
+
+	point3 expectedPt{ 2, 6, 12 };
+	EXPECT_EQ(r2.Origin(), expectedPt);
+
+	vec3 expectedVec{ 0, 3, 0 };
+	EXPECT_EQ(r2.Direction(), expectedVec);
+}
 
 TEST(RayTests, SphereTransformation)
 {
@@ -201,24 +201,24 @@ TEST(RayTests, ChangeSphereTransformation)
 	EXPECT_EQ(*s.Transformation(), t);
 }
 
-//TEST(RayTests, IntersectingScaledSphereWithRay)
-//{
-//	ray r{ point3{0, 0, -5}, vec3{0, 0, 1} };
-//	Sphere s{};
-//	s.SetTransformation(scaling(2, 2, 2));
-//	auto xs = intersect(s, r);
-//
-//	EXPECT_EQ(xs.size(), 2);
-//	EXPECT_EQ(xs[0].t, 3);
-//	EXPECT_EQ(xs[1].t, 7);
-//}
-//
-//TEST(RayTests, IntersectingTranslatedSphereWithRay)
-//{
-//	ray r{ point3{0, 0, -5}, vec3{0, 0, 1} };
-//	Sphere s{};
-//	s.SetTransformation(translation(5, 0, 0));
-//	auto xs = intersect(s, r);
-//
-//	EXPECT_EQ(xs.size(), 0);
-//}
+TEST(RayTests, IntersectingScaledSphereWithRay)
+{
+	ray r{ point3{0, 0, -5}, vec3{0, 0, 1} };
+	Sphere s{};
+	s.SetTransformation(scaling(2, 2, 2));
+	auto xs = intersect(s, r);
+
+	EXPECT_EQ(xs.size(), 2);
+	EXPECT_EQ(xs[0].t, 3);
+	EXPECT_EQ(xs[1].t, 7);
+}
+
+TEST(RayTests, IntersectingTranslatedSphereWithRay)
+{
+	ray r{ point3{0, 0, -5}, vec3{0, 0, 1} };
+	Sphere s{};
+	s.SetTransformation(translation(5, 0, 0));
+	auto xs = intersect(s, r);
+
+	EXPECT_EQ(xs.size(), 0);
+}

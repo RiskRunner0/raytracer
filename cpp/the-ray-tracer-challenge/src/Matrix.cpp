@@ -81,7 +81,7 @@ Matrix::Matrix(unsigned rows, unsigned cols, const float data[]) : _rows(rows), 
 	for (unsigned r = 0; r < _rows; ++r) {
 		for (unsigned c = 0; c < _cols; ++c) {
 			auto read = data[_rows * r + c];
-			_data[_rows * r + c] = read;
+			_data[_cols * r + c] = read;
 		}
 	}
 }
@@ -92,14 +92,14 @@ Matrix::Matrix(unsigned rows, unsigned cols, float val) : _rows(rows), _cols(col
 
 	for (unsigned r = 0; r < _rows; ++r) {
 		for (unsigned c = 0; c < _cols; ++c) {
-			_data[_rows * r + c] = val;
+			_data[_cols * r + c] = val;
 		}
 	}
 }
 
 Matrix::~Matrix() {
 	// TODO: how do I do this??
-	//delete[] _data;
+	delete[] _data;
 }
 
 unsigned Matrix::Rows() const {

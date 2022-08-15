@@ -15,11 +15,12 @@ point3 position(ray r, float t) {
 	return r.Origin() + r.Direction() * t;
 }
 
-std::vector<Intersection> intersect(Sphere& s, ray r) {
-	auto sphereToRay = r.Origin() - point3{ 0, 0, 0 };
+std::vector<Intersection> intersect(Sphere& s, ray& r) {
+	ray r2 = transform(r, *inverse(*s.Transformation()));
+	auto sphereToRay = r2.Origin() - point3{ 0, 0, 0 };
 
-	auto a = r.Direction().dot(r.Direction());
-	auto b = 2 * r.Direction().dot(sphereToRay);
+	auto a = r2.Direction().dot(r2.Direction());
+	auto b = 2 * r2.Direction().dot(sphereToRay);
 	auto c = sphereToRay.dot(sphereToRay) - 1;
 
 	auto discriminant = b * b - 4 * a * c;
@@ -35,4 +36,8 @@ std::vector<Intersection> intersect(Sphere& s, ray r) {
 	result.push_back({ t1, s });
 	result.push_back({ t2, s });
 	return result;
+}
+
+ray transform(ray& r, Matrix& m) {
+	return ray{m * r.Origin(), m * r.Direction()};
 }

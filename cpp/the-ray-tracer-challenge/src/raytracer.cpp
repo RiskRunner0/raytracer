@@ -35,14 +35,32 @@ projectile tick(environment e, projectile p)
 
 int main()
 {
-    ray r{ point3{0, 0, -5}, vec3{0, 0, 1} };
     Sphere s{};
-    s.SetTransformation(scaling(2, 2, 2));
-    auto xs = intersect(s, r);
+    auto transform = translation(500, 500, 0) * scaling(25, 25, 25);
+    s.SetTransformation(transform);
 
-    bool eq = xs.size() == 2;
-    eq = xs[0].t == 3;
-    eq = xs[1].t == 7;
+    Canvas c{ 1000, 1000 };
+    Color red{ 255, 0, 0 };
+
+    point3 rayPoint{ 500, 500, 300 };
+
+    for (int row = 0; row < c.height(); ++row) {
+        for (int col = 0; col < c.width(); ++col) {
+            point3 pointOnCanvas{ row, col, 0 };
+            vec3 vectToCanvas{ pointOnCanvas - rayPoint };
+
+            ray r{ rayPoint, vectToCanvas };
+            auto xs = intersect(s, r);
+            if (xs.size() > 0) {
+                // std::cout << "HIT AT " << row << ", " << col << std::endl;
+                c.writePixel(row, col, red);
+            }
+        }
+    }
+
+    PPMFileWriter writer;
+    writer.WriteToPPMFile(c, "circle.ppm");
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
