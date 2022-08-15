@@ -36,13 +36,13 @@ projectile tick(environment e, projectile p)
 int main()
 {
     Sphere s{};
-    auto transform = translation(250, 250, 0) * scaling(25, 25, 25);
+    auto transform = translation(250, 250, 0) * scaling(150, 150, 150);
     s.SetTransformation(transform);
 
     Canvas c{ 500, 500 };
     Color red{ 255, 0, 0 };
 
-    point3 rayPoint{ 250, 250, 100 };
+    point3 rayPoint{ 250, 250, 750 };
 
     for (int row = 0; row < c.height(); ++row) {
         for (int col = 0; col < c.width(); ++col) {
