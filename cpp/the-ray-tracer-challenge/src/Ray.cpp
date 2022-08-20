@@ -16,15 +16,17 @@ point3 position(ray r, float t) {
 }
 
 std::vector<Intersection> intersect(Sphere& s, ray& r) {
-	Matrix* inverseMat = inverse(*s.Transformation());
+	const Matrix* transformM = s.Transformation();
+	Matrix* inverseMat = inverse(*transformM);
+	if (inverseMat == nullptr) return std::vector<Intersection>();
 	ray r2 = transform(r, *inverseMat);
 	delete inverseMat;
 
 	auto sphereToRay = r2.Origin() - point3{ 0, 0, 0 };
 
-	auto a = r2.Direction().dot(r2.Direction());
-	auto b = 2 * r2.Direction().dot(sphereToRay);
-	auto c = sphereToRay.dot(sphereToRay) - 1;
+	auto a = dot(r2.Direction(), r2.Direction());
+	auto b = 2 * dot(r2.Direction(), sphereToRay);
+	auto c = dot(sphereToRay, sphereToRay) - 1;
 
 	auto discriminant = b * b - 4 * a * c;
 

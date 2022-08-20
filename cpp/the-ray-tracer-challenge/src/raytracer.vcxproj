@@ -145,9 +145,11 @@
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Intersection.cpp" />
     <ClCompile Include="point3.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="PPMFileWriter.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="raytracer.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Translation.cpp" />
     <ClCompile Include="tuple.cpp" />
@@ -157,10 +159,12 @@
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Intersection.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="point3.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="PPMFileWriter.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Sphere.h" />

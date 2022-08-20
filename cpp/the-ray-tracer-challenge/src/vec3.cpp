@@ -9,14 +9,6 @@ vec3::vec3(tuple t) : vec3(t.x(), t.y(), t.z()) {
 
 float vec3::magnitude() const { return _magnitude; }
 
-vec3 vec3::normalize() const {
-	return vec3{
-		x() / _magnitude,
-		y() / _magnitude,
-		z() / _magnitude
-	};
-}
-
 vec3 vec3::operator+(const vec3& rhs) const {
 	return vec3{
 		(tuple)(*this)+tuple(rhs)
@@ -31,11 +23,11 @@ vec3 vec3::operator-() const {
 	return vec3{ -(tuple)(*this)};
 }
 
-float vec3::dot(const vec3& b) const
+float dot(const vec3& a, const vec3& b)
 {
-	return	x() * b.x() +
-		y() * b.y() +
-		z() * b.z();
+	return	(a.x() * b.x()) +
+		(a.y() * b.y()) +
+		(a.z() * b.z());
 }
 
 vec3 vec3::cross(const vec3& b) const
@@ -44,4 +36,16 @@ vec3 vec3::cross(const vec3& b) const
 				 this->z() * b.x() - this->x() * b.z(),
 				 this->x() * b.y() - this->y() * b.x()
 	};
+}
+
+vec3 normalize(const vec3& v) {
+	return vec3{
+		v.x() / v.magnitude(),
+		v.y() / v.magnitude(),
+		v.z() / v.magnitude()
+	};
+}
+
+vec3 reflect(const vec3& v, const vec3& normal) {
+	return v - normal * 2 * dot(v, normal);
 }

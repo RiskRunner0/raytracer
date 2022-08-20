@@ -124,13 +124,13 @@ TEST(VectorTests, Normalize)
 {
 	vec3 v{4, 0, 0};
 	auto expected = vec3{1, 0, 0};
-	auto actual = v.normalize();
+	auto actual = normalize(v);
 
 	EXPECT_TRUE(floatEqual(1.0f, actual.magnitude()));
 
 	v = vec3{1, 2, 3};
 	expected = vec3{0.26726f, 0.53452f, 0.80178f};
-	actual = v.normalize();
+	actual = normalize(v);
 
 	EXPECT_TRUE(floatEqual(1.0f, actual.magnitude()));
 }
@@ -141,7 +141,7 @@ TEST(VectorTests, DotProduct)
 	vec3 b{2, 3, 4};
 
 	auto expected = 20.0f;
-	auto actual = a.dot(b);
+	auto actual = dot(a, b);
 
 	EXPECT_EQ(expected, actual);
 }
@@ -162,4 +162,26 @@ TEST(VectorTests, CrossProduct)
 
 	EXPECT_EQ(typeid(actual), typeid(vec3));
 	EXPECT_EQ(expected, actual);
+}
+
+TEST(VectorTests, ReflectingVectorApproachingAt45Degree)
+{
+	vec3 v{ 1, -1, 0 };
+	vec3 n{ 0, 1, 0 };
+
+	auto r = reflect(v, n);
+	vec3 expected{ 1, 1, 0 };
+
+	EXPECT_EQ(expected, r);
+}
+
+TEST(VectorTests, ReflectingVectorApproachingAtSlantedDegree)
+{
+	vec3 v{ 0, -1, 0 };
+	vec3 n{ (float)sqrt(2) / 2.0f, (float)sqrt(2) / 2.0f, 0};
+
+	auto r = reflect(v, n);
+	vec3 expected{ 1, 0, 0 };
+
+	EXPECT_EQ(expected, r);
 }

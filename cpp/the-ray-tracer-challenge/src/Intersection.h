@@ -4,13 +4,14 @@
 #include <vector>
 #include <cstdarg>
 #include "Math.h"
+#include "Sphere.h"
 
 class Intersection {
 public:
-	Intersection(float t, Object& o);
+	Intersection(float t, Sphere& o);
 
 	float t;
-	Object* object;
+	Sphere* object;
 };
 
 inline

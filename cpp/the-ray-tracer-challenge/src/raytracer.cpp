@@ -10,51 +10,47 @@
 #include <math.h>
 #include "Sphere.h"
 #include "Intersection.h"
-
-class projectile {
-public:
-    projectile(point3 position, vec3 velocity) : position(position), velocity(velocity) {}
-    point3 position;
-    vec3 velocity;
-};
-
-class environment {
-public:
-    environment(vec3 g, vec3 w) : gravity(g), wind(w) {}
-    vec3 gravity;
-    vec3 wind;
-};
-
-projectile tick(environment e, projectile p)
-{
-    point3 position = p.position + p.velocity;
-    vec3 velocity = p.velocity + e.gravity + e.wind;
-    return projectile{ position, velocity };
-}
-
+#include "PointLight.h"
 
 int main()
 {
     Sphere s{};
-    auto transform = translation(250, 250, 0) * scaling(150, 150, 150);
-    s.SetTransformation(transform);
+    Material m{ Color{1.0, 0.2, 1.0}, MATERIAL_DEFAULT_AMBIENT, MATERIAL_DEFAULT_DIFFUSE, MATERIAL_DEFAULT_SPECULAR, MATERIAL_DEFAULT_SHININESS };
+    s.SetMaterial(m);
+    
+    // set light
+    point3 lightPosition{ -10, 10, -10 };
+    Color lightColor{ 1.0, 1.0, 1.0 };
+    PointLight light{ lightPosition, lightColor };
 
-    Canvas c{ 500, 500 };
-    Color red{ 255, 0, 0 };
+    point3 rayPoint{ 0, 0, -5 };
+    auto wallZ = 10.0;
+    auto wallSize = 7.0;
+    auto canvasPixels = 100;
 
-    point3 rayPoint{ 250, 250, 750 };
+    auto pixelSize = wallSize / canvasPixels;
+    auto half = wallSize / 2.0;
+
+    Canvas c{ canvasPixels, canvasPixels };
 
     for (int row = 0; row < c.height(); ++row) {
-        for (int col = 0; col < c.width(); ++col) {
-            //std::cout << "PROCESSING " << row << ", " << col << std::endl;
-            point3 pointOnCanvas{ row, col, 0 };
-            vec3 vectToCanvas{ pointOnCanvas - rayPoint };
 
-            ray r{ rayPoint, vectToCanvas };
+        auto worldY = half - pixelSize * row;
+        for (int col = 0; col < c.width(); ++col) {
+            auto worldX = -half + pixelSize * col;
+            //std::cout << "PROCESSING " << row << ", " << col << std::endl;
+            point3 pos{ worldX, worldY, wallZ };
+
+            ray r{ rayPoint, normalize(pos - rayPoint)};
             auto xs = intersect(s, r);
             if (xs.size() > 0) {
                 // std::cout << "HIT AT " << row << ", " << col << std::endl;
-                c.writePixel(row, col, red);
+                // Color color{ 255, 0, 0 };
+                auto p = position(r, xs[0].t);
+                auto normal = normalAt(s, p);
+                auto eye = -r.Direction();
+                auto color = lighting(m, light, p, eye, normal);
+                c.writePixel(row, col, color);
             }
         }
     }

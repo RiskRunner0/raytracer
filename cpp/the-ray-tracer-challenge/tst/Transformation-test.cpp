@@ -18,7 +18,7 @@ TEST(TranslationTests, MultiplyingByTranslationMatrix)
 TEST(TranslationTests, MultiplyingByInverseTranslationMatrix)
 {
 	auto transform = translation(5, -3, 2);
-	auto inv = *inverse(transform);
+	Matrix inv = *inverse(transform);
 	point3 p{ -3, 4, 5 };
 	point3 expected{ -8, 7, 3 };
 	EXPECT_EQ(inv * p, expected);

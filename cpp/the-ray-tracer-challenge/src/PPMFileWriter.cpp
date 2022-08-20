@@ -24,9 +24,9 @@ void PPMFileWriter::WriteHeader(std::ofstream& stream, int width, int height) co
 }
 
 void PPMFileWriter::WriteColor(std::ofstream& stream, const Color& color) {
-	auto r = std::clamp(color.r(), 0.0f, (float)MAX_COLOR_VAL);
-	auto g = std::clamp(color.g(), 0.0f, (float)MAX_COLOR_VAL);
-	auto b = std::clamp(color.b(), 0.0f, (float)MAX_COLOR_VAL);
+	int r = std::clamp(color.r() * 255, 0.0f, (float)MAX_COLOR_VAL);
+	int g = std::clamp(color.g() * 255, 0.0f, (float)MAX_COLOR_VAL);
+	int b = std::clamp(color.b() * 255, 0.0f, (float)MAX_COLOR_VAL);
 
-	stream << static_cast<int>(r) << " " << static_cast<int>(g) << " " << static_cast<int>(b) << " ";
+	stream << r << " " << g << " " << b << " ";
 }

@@ -34,8 +34,11 @@
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
     <ClCompile Include="Canvas-test.cpp" />
+    <ClCompile Include="Lighting-test.cpp" />
+    <ClCompile Include="Material-Tests.cpp" />
     <ClCompile Include="Matrix-test.cpp" />
     <ClCompile Include="Ray-test.cpp" />
+    <ClCompile Include="Sphere-Tests.cpp" />
     <ClCompile Include="Transformation-test.cpp" />
     <ClCompile Include="Tuple-test.cpp" />
     <ClCompile Include="Vector-test.cpp" />

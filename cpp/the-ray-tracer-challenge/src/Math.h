@@ -5,5 +5,6 @@
 #define EPSILON 0.00001;
 
 inline bool floatEqual(float a, float b) {
-	return fabsf(a - b) < EPSILON;
+	auto diff = fabsf(a - b);
+	return  diff < EPSILON;
 }
