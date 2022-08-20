@@ -42,6 +42,7 @@
     <ClCompile Include="Transformation-test.cpp" />
     <ClCompile Include="Tuple-test.cpp" />
     <ClCompile Include="Vector-test.cpp" />
+    <ClCompile Include="World-test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

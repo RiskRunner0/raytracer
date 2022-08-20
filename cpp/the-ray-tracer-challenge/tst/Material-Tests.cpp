@@ -10,8 +10,8 @@ TEST(MaterialTests, PointLightCreation)
 	auto position = point3{ 0, 0, 0 };
 
 	auto light = PointLight{ position, intensity };
-	EXPECT_EQ(light.Position(), position);
-	EXPECT_EQ(light.Intensity(), intensity);
+	EXPECT_EQ(light.position, position);
+	EXPECT_EQ(light.intensity, intensity);
 }
 
 TEST(MaterialTests, DefaultMaterial)
@@ -20,18 +20,18 @@ TEST(MaterialTests, DefaultMaterial)
 
 	Color expectedColor{ 1, 1, 1 };
 
-	EXPECT_EQ(m.GetColor(), expectedColor);
-	EXPECT_EQ(m.Ambient(), 0.1f);
-	EXPECT_EQ(m.Diffuse(), 0.9f);
-	EXPECT_EQ(m.Specular(), 0.9f);
-	EXPECT_EQ(m.Shininess(), 200.0f);
+	EXPECT_EQ(m.color, expectedColor);
+	EXPECT_EQ(m.ambient, 0.1f);
+	EXPECT_EQ(m.diffuse, 0.9f);
+	EXPECT_EQ(m.specular, 0.9f);
+	EXPECT_EQ(m.shininess, 200.0f);
 }
 
 TEST(MaterialTests, SphereHasDefaultMaterial)
 {
 	Sphere s{};
 
-	auto m = s.GetMaterial();
+	auto m = s.material;
 	Material expected{};
 
 	EXPECT_EQ(m, expected);

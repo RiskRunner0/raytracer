@@ -5,22 +5,24 @@
 #include "Matrix.h"
 #include "vec3.h"
 #include "Material.h"
+#include "Math.h"
 
 class Sphere : public Object {
 public:
 	Sphere();
 
-	float    Radius() const;
-	point3   Center() const;
-	const    Matrix* Transformation() const;
-	void     SetTransformation(const Matrix& m);
-	Material GetMaterial() const;
-	void	 SetMaterial(Material& m);
-private:
-	float    _radius;
-	point3   _center;
-	Matrix*  _transformation;
-	Material _material;
+	float    radius;
+	point3   center;
+	Matrix*  transformation;
+	Material material;
 };
 
 vec3 normalAt(Sphere s, point3 p);
+
+inline
+bool operator==(const Sphere& lhs, const Sphere& rhs) {
+	return floatEqual(lhs.radius, rhs.radius) &&
+		lhs.center == rhs.center &&
+		*lhs.transformation == *rhs.transformation &&
+		lhs.material == rhs.material;
+}

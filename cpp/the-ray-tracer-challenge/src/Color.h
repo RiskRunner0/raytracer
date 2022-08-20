@@ -5,6 +5,8 @@
 class Color {
 public:
 	Color();
+	Color(int r, int g, int b);
+	Color(double r, double g, double b);
 	Color(float r, float g, float b);
 
 	float r() const;

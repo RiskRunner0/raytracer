@@ -16,7 +16,7 @@ point3 position(ray r, float t) {
 }
 
 std::vector<Intersection> intersect(Sphere& s, ray& r) {
-	const Matrix* transformM = s.Transformation();
+	const Matrix* transformM = s.transformation;
 	Matrix* inverseMat = inverse(*transformM);
 	if (inverseMat == nullptr) return std::vector<Intersection>();
 	ray r2 = transform(r, *inverseMat);

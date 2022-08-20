@@ -20,25 +20,19 @@ public:
 		float specular,
 		float shininess);
 
-	Color GetColor() const;
-	float Ambient() const;
-	float Diffuse() const;
-	float Specular() const;
-	float Shininess() const;
+	Color color;
+	float ambient;
+	float diffuse;
+	float specular;
+	float shininess;
 
-private:
-	Color _color;
-	float _ambient;
-	float _diffuse;
-	float _specular;
-	float _shininess;
 };
 
 inline
 bool operator==(const Material& lhs, const Material& rhs) {
-	return lhs.GetColor() == rhs.GetColor() &&
-		floatEqual(lhs.Ambient(), rhs.Ambient()) &&
-		floatEqual(lhs.Diffuse(), rhs.Diffuse()) &&
-		floatEqual(lhs.Specular(), rhs.Specular()) &&
-		floatEqual(lhs.Shininess(), rhs.Shininess());
+	return lhs.color == rhs.color &&
+		floatEqual(lhs.ambient, rhs.ambient) &&
+		floatEqual(lhs.diffuse, rhs.diffuse) &&
+		floatEqual(lhs.specular, rhs.specular) &&
+		floatEqual(lhs.shininess, rhs.shininess);
 }

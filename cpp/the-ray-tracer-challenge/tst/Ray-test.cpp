@@ -190,22 +190,22 @@ TEST(RayTests, ScalingRay)
 TEST(RayTests, SphereTransformation)
 {
 	Sphere s{};
-	EXPECT_EQ(*s.Transformation(), IdentityMatrix4x4);
+	EXPECT_EQ(*s.transformation, IdentityMatrix4x4);
 }
 
 TEST(RayTests, ChangeSphereTransformation)
 {
 	Sphere s{};
 	auto t = translation(2, 3, 4);
-	s.SetTransformation(t);
-	EXPECT_EQ(*s.Transformation(), t);
+	s.transformation = new Matrix{ t };
+	EXPECT_EQ(*s.transformation, t);
 }
 
 TEST(RayTests, IntersectingScaledSphereWithRay)
 {
 	ray r{ point3{0, 0, -5}, vec3{0, 0, 1} };
 	Sphere s{};
-	s.SetTransformation(scaling(2, 2, 2));
+	s.transformation = new Matrix{ scaling(2, 2, 2) };
 	auto xs = intersect(s, r);
 
 	EXPECT_EQ(xs.size(), 2);
@@ -217,7 +217,7 @@ TEST(RayTests, IntersectingTranslatedSphereWithRay)
 {
 	ray r{ point3{0, 0, -5}, vec3{0, 0, 1} };
 	Sphere s{};
-	s.SetTransformation(translation(5, 0, 0));
+	s.transformation = new Matrix{ translation(5, 0, 0) };
 	auto xs = intersect(s, r);
 
 	EXPECT_EQ(xs.size(), 0);

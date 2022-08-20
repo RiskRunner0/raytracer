@@ -154,6 +154,7 @@
     <ClCompile Include="Translation.cpp" />
     <ClCompile Include="tuple.cpp" />
     <ClCompile Include="vec3.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Canvas.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Translation.h" />
     <ClInclude Include="tuple.h" />
     <ClInclude Include="vec3.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

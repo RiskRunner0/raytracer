@@ -16,7 +16,7 @@ int main()
 {
     Sphere s{};
     Material m{ Color{1.0, 0.2, 1.0}, MATERIAL_DEFAULT_AMBIENT, MATERIAL_DEFAULT_DIFFUSE, MATERIAL_DEFAULT_SPECULAR, MATERIAL_DEFAULT_SHININESS };
-    s.SetMaterial(m);
+    s.material = m;
     
     // set light
     point3 lightPosition{ -10, 10, -10 };

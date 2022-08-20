@@ -2,6 +2,10 @@
 
 Color::Color() : e{ 0, 0, 0 } {};
 
+Color::Color(int r, int g, int b) : Color(static_cast<float>(r), static_cast<float>(g), static_cast<float>(b)) {}
+
+Color::Color(double r, double g, double b) : Color(static_cast<float>(r), static_cast<float>(g), static_cast<float>(b)) {}
+
 Color::Color(float r, float g, float b) : e{ r, g, b } {}
 
 float Color::r() const { return e[0]; }
