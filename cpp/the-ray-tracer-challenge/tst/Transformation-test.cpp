@@ -238,3 +238,45 @@ TEST(TranslationTests, ChainedTransformations)
 
 	EXPECT_EQ(expected, actual);
 }
+
+TEST(TranslationTests, DefaultOrientation) {
+	point3 from{ 0, 0, 0 };
+	point3 to{ 0, 0, -1 };
+	vec3 up{ 0, 1, 0 };
+	auto t = viewTransformation(from, to, up);
+	EXPECT_EQ(t, IdentityMatrix4x4);
+}
+
+TEST(TranslationTests, ViewTransformationPositiveZDirection) {
+	point3 from{ 0, 0, 0 };
+	point3 to{ 0, 0, 1 };
+	vec3 up{ 0, 1, 0 };
+	auto t = viewTransformation(from, to, up);
+	auto expected = scaling(-1, 1, -1);
+	EXPECT_EQ(t, expected);
+}
+
+TEST(TranslationTests, ViewTransformationMovesWorld) {
+	point3 from{ 0, 0, 8 };
+	point3 to{ 0, 0, 0 };
+	vec3 up{ 0, 1, 0 };
+	auto t = viewTransformation(from, to, up);
+	auto expected = translation(0, 0, -8);
+	EXPECT_EQ(t, expected);
+}
+
+TEST(TranslationTests, ArbitraryTransformation) {
+	point3 from{ 1, 3, 2 };
+	point3 to{ 4, -2, 8 };
+	vec3 up{ 1, 1, 0 };
+	auto t = viewTransformation(from, to, up);
+
+	float values[] = {
+		-0.50709,	0.50709,	 0.67612,	-2.36643,
+		 0.76772,	0.60609,	 0.12122,	-2.82843,
+		-0.35857,	0.59761,	-0.71714,	 0.00000,
+		 0.00000,	0.00000,	 0.00000,	 1.00000,
+	};
+	Matrix expected{ 4, 4, values };
+	EXPECT_EQ(t, expected);
+}

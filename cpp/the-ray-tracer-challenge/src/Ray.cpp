@@ -1,31 +1,22 @@
 #include "Ray.h"
 
-ray::ray(point3 origin, vec3 direction) : _origin(origin), _direction(direction)
+ray::ray(point3 origin, vec3 direction) : origin(origin), direction(direction)
 {}
 
-point3 ray::Origin() const {
-	return _origin;
-}
-
-vec3 ray::Direction() const {
-	return _direction;
-}
-
 point3 position(ray r, float t) {
-	return r.Origin() + r.Direction() * t;
+	return r.origin + r.direction * t;
 }
 
-std::vector<Intersection> intersect(Sphere& s, ray& r) {
-	const Matrix* transformM = s.transformation;
-	Matrix* inverseMat = inverse(*transformM);
+std::vector<Intersection> intersect(Sphere* s, ray& r) {
+	Matrix* inverseMat = inverse(*s->transformation);
 	if (inverseMat == nullptr) return std::vector<Intersection>();
 	ray r2 = transform(r, *inverseMat);
-	delete inverseMat;
+	//delete inverseMat;
 
-	auto sphereToRay = r2.Origin() - point3{ 0, 0, 0 };
+	auto sphereToRay = r2.origin - point3{ 0, 0, 0 };
 
-	auto a = dot(r2.Direction(), r2.Direction());
-	auto b = 2 * dot(r2.Direction(), sphereToRay);
+	auto a = dot(r2.direction, r2.direction);
+	auto b = 2 * dot(r2.direction, sphereToRay);
 	auto c = dot(sphereToRay, sphereToRay) - 1;
 
 	auto discriminant = b * b - 4 * a * c;
@@ -44,5 +35,5 @@ std::vector<Intersection> intersect(Sphere& s, ray& r) {
 }
 
 ray transform(ray& r, Matrix& m) {
-	return ray{m * r.Origin(), m * r.Direction()};
+	return ray{m * r.origin, m * r.direction };
 }

@@ -33,6 +33,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClCompile Include="Camera-test.cpp" />
     <ClCompile Include="Canvas-test.cpp" />
     <ClCompile Include="Lighting-test.cpp" />
     <ClCompile Include="Material-Tests.cpp" />

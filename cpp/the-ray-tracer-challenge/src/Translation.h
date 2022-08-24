@@ -15,3 +15,5 @@ Matrix rotation_y(float ratians);
 Matrix rotation_z(float ratians);
 
 Matrix shearing(float xy, float xz, float yx, float yz, float zx, float zy);
+
+Matrix viewTransformation(vec3 from, vec3 to, vec3 up);

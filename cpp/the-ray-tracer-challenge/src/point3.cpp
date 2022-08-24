@@ -1,5 +1,7 @@
 #include "point3.h"
 
+point3::point3() : point3(0, 0, 0) {}
+
 point3::point3(float x, float y, float z) : tuple(x, y, z, 1.0) {};
 
 point3::point3(int x, int y, int z) : point3((float)x, (float)y, (float(z))) {};

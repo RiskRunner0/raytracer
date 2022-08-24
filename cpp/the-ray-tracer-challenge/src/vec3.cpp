@@ -1,5 +1,7 @@
 #include "vec3.h"
 
+vec3::vec3() : vec3(0.0f, 0.0f, 0.0f) {}
+
 vec3::vec3(float x, float y, float z) : tuple(x, y, z, 0.0f) {
 	_magnitude = sqrt(vec3::x() * vec3::x() + vec3::y() * vec3::y() + vec3::z() * vec3::z());
 }
@@ -30,11 +32,10 @@ float dot(const vec3& a, const vec3& b)
 		(a.z() * b.z());
 }
 
-vec3 vec3::cross(const vec3& b) const
-{
-	return vec3{ this->y() * b.z() - this->z() * b.y(),
-				 this->z() * b.x() - this->x() * b.z(),
-				 this->x() * b.y() - this->y() * b.x()
+vec3 cross(const vec3& a, const vec3& b) {
+	return vec3{ a.y() * b.z() - a.z() * b.y(),
+				 a.z() * b.x() - a.x() * b.z(),
+				 a.x() * b.y() - a.y() * b.x()
 	};
 }
 

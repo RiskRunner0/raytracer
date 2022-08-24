@@ -15,8 +15,8 @@ TEST(RayTests, CreateAndQueryRay)
 	vec3 direction{ 4, 5, 6 };
 
 	ray r{ origin, direction };
-	EXPECT_EQ(r.Origin(), origin);
-	EXPECT_EQ(r.Direction(), direction);
+	EXPECT_EQ(r.origin, origin);
+	EXPECT_EQ(r.direction, direction);
 }
 
 TEST(RayTests, PointFromDistance)
@@ -46,7 +46,7 @@ TEST(RayTests, IntersectsSphereAt2Points)
 	ray r{ origin, dir };
 	Sphere s{};
 
-	auto xs = intersect(s, r);
+	auto xs = intersect(&s, r);
 
 	EXPECT_EQ(xs.size(), 2);
 	EXPECT_EQ(xs[0].t, 4.0);
@@ -57,7 +57,7 @@ TEST(RayTests, IntersectsAtTangent)
 {
 	ray r{ point3{0, 1, -5}, vec3{0, 0, 1} };
 	Sphere s{};
-	auto xs = intersect(s, r);
+	auto xs = intersect(&s, r);
 
 	EXPECT_EQ(xs.size(), 2);
 	EXPECT_EQ(xs[0].t, 5.0);
@@ -68,7 +68,7 @@ TEST(RayTests, DoesntIntersect)
 {
 	ray r{ point3{0, 2, -5}, vec3{0, 0, 1} };
 	Sphere s{};
-	auto xs = intersect(s, r);
+	auto xs = intersect(&s, r);
 
 	EXPECT_EQ(xs.size(), 0);
 }
@@ -77,7 +77,7 @@ TEST(RayTests, RayStartsInMiddleOfCircle)
 {
 	ray r{ point3{0, 0, 0}, vec3{0, 0, 1} };
 	Sphere s{};
-	auto xs = intersect(s, r);
+	auto xs = intersect(&s, r);
 
 	EXPECT_EQ(xs.size(), 2);
 	EXPECT_EQ(xs[0].t, -1.0);
@@ -88,7 +88,7 @@ TEST(RayTests, RayInFrontofCircle)
 {
 	ray r{ point3{0, 0, 5}, vec3{0, 0, 1} };
 	Sphere s{};
-	auto xs = intersect(s, r);
+	auto xs = intersect(&s, r);
 
 	EXPECT_EQ(xs.size(), 2);
 	EXPECT_EQ(xs[0].t, -6.0);
@@ -98,7 +98,7 @@ TEST(RayTests, RayInFrontofCircle)
 TEST(RayTests, IntersectionEncapsulation)
 {
 	Sphere s{};
-	Intersection i{ 3.5, s };
+	Intersection i{ 3.5, &s };
 
 	EXPECT_EQ(i.t, 3.5);
 	EXPECT_EQ(i.object, &s);
@@ -108,7 +108,7 @@ TEST(RayTests, IntersectSetsObjectOnIntersection)
 {
 	ray r{ point3{0, 0, 5}, vec3{0, 0, 1} };
 	Sphere s{};
-	auto xs = intersect(s, r);
+	auto xs = intersect(&s, r);
 
 	EXPECT_EQ(xs.size(), 2);
 	EXPECT_EQ(xs[0].object, &s);
@@ -118,8 +118,8 @@ TEST(RayTests, IntersectSetsObjectOnIntersection)
 TEST(RayTests, AllIntersectionsPositiveT)
 {
 	Sphere s{};
-	Intersection i1{ 1, s };
-	Intersection i2{ 2, s };
+	Intersection i1{ 1, &s };
+	Intersection i2{ 2, &s };
 	std::vector<Intersection> xs = intersections(std::vector<Intersection>{ i2, i1 });
 	auto i = hit(xs);
 
@@ -129,8 +129,8 @@ TEST(RayTests, AllIntersectionsPositiveT)
 TEST(RayTests, SomeIntersectionsNegativeT)
 {
 	Sphere s{};
-	Intersection i1{ -1, s };
-	Intersection i2{ 1, s };
+	Intersection i1{ -1, &s };
+	Intersection i2{ 1, &s };
 	std::vector<Intersection> xs = intersections(std::vector<Intersection>{ i2, i1 });
 	auto i = hit(xs);
 
@@ -140,8 +140,8 @@ TEST(RayTests, SomeIntersectionsNegativeT)
 TEST(RayTests, AllIntersectionsNegativeT)
 {
 	Sphere s{};
-	Intersection i1{ -2, s };
-	Intersection i2{ -1, s };
+	Intersection i1{ -2, &s };
+	Intersection i2{ -1, &s };
 	std::vector<Intersection> xs = intersections(std::vector<Intersection>{ i2, i1 });
 	auto i = hit(xs);
 
@@ -151,10 +151,10 @@ TEST(RayTests, AllIntersectionsNegativeT)
 TEST(RayTests, HitAlwaysLowestNonNegativeNumber)
 {
 	Sphere s{};
-	Intersection i1{ 5, s };
-	Intersection i2{ 7, s };
-	Intersection i3{ -3, s };
-	Intersection i4{ 2, s };
+	Intersection i1{ 5, &s };
+	Intersection i2{ 7, &s };
+	Intersection i3{ -3, &s };
+	Intersection i4{ 2, &s };
 	std::vector<Intersection> xs = intersections(std::vector<Intersection>{ i1, i2, i3, i4 });
 	auto i = hit(xs);
 
@@ -168,10 +168,10 @@ TEST(RayTests, TranslatingRay)
 	auto r2 = transform(r, m);
 	
 	point3 expectedPt{ 4, 6, 8 };
-	EXPECT_EQ(r2.Origin(), expectedPt);
+	EXPECT_EQ(r2.origin, expectedPt);
 
 	vec3 expectedVec{ 0, 1, 0 };
-	EXPECT_EQ(r2.Direction(), expectedVec);
+	EXPECT_EQ(r2.direction, expectedVec);
 }
 
 TEST(RayTests, ScalingRay)
@@ -181,10 +181,10 @@ TEST(RayTests, ScalingRay)
 	auto r2 = transform(r, m);
 
 	point3 expectedPt{ 2, 6, 12 };
-	EXPECT_EQ(r2.Origin(), expectedPt);
+	EXPECT_EQ(r2.origin, expectedPt);
 
 	vec3 expectedVec{ 0, 3, 0 };
-	EXPECT_EQ(r2.Direction(), expectedVec);
+	EXPECT_EQ(r2.direction, expectedVec);
 }
 
 TEST(RayTests, SphereTransformation)
@@ -206,7 +206,7 @@ TEST(RayTests, IntersectingScaledSphereWithRay)
 	ray r{ point3{0, 0, -5}, vec3{0, 0, 1} };
 	Sphere s{};
 	s.transformation = new Matrix{ scaling(2, 2, 2) };
-	auto xs = intersect(s, r);
+	auto xs = intersect(&s, r);
 
 	EXPECT_EQ(xs.size(), 2);
 	EXPECT_EQ(xs[0].t, 3);
@@ -218,7 +218,7 @@ TEST(RayTests, IntersectingTranslatedSphereWithRay)
 	ray r{ point3{0, 0, -5}, vec3{0, 0, 1} };
 	Sphere s{};
 	s.transformation = new Matrix{ translation(5, 0, 0) };
-	auto xs = intersect(s, r);
+	auto xs = intersect(&s, r);
 
 	EXPECT_EQ(xs.size(), 0);
 }

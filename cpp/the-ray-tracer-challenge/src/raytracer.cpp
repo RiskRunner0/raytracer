@@ -11,52 +11,66 @@
 #include "Sphere.h"
 #include "Intersection.h"
 #include "PointLight.h"
+#include "World.h"
+#include "Camera.h"
 
 int main()
 {
-    Sphere s{};
-    Material m{ Color{1.0, 0.2, 1.0}, MATERIAL_DEFAULT_AMBIENT, MATERIAL_DEFAULT_DIFFUSE, MATERIAL_DEFAULT_SPECULAR, MATERIAL_DEFAULT_SHININESS };
-    s.material = m;
-    
-    // set light
-    point3 lightPosition{ -10, 10, -10 };
-    Color lightColor{ 1.0, 1.0, 1.0 };
-    PointLight light{ lightPosition, lightColor };
+    Sphere* floor = new Sphere{};
+    floor->transformation = new Matrix{ scaling(10, 0.01, 10) };
+    floor->material.color = Color{ 1.0, 0.9, 0.9 };
+    floor->material.specular = 0;
 
-    point3 rayPoint{ 0, 0, -5 };
-    auto wallZ = 10.0;
-    auto wallSize = 7.0;
-    auto canvasPixels = 100;
+    Sphere* leftWall = new Sphere{};
+    leftWall->transformation = new Matrix{
+        translation(0, 0, 5) *
+        rotation_y(-static_cast<float>(M_PI) / 4.0f) *
+        rotation_x(static_cast<float>(M_PI) / 2.0f) *
+        scaling(10, 0.01, 10)
+    };
 
-    auto pixelSize = wallSize / canvasPixels;
-    auto half = wallSize / 2.0;
+    Sphere* rightWall = new Sphere{};
+    rightWall->transformation = new Matrix{
+        translation(0, 0, 5) *
+        rotation_y(static_cast<float>(M_PI) / 4.0f) *
+        rotation_x(static_cast<float>(M_PI) / 2.0f) *
+        scaling(10, 0.01, 10)
+    };
 
-    Canvas c{ canvasPixels, canvasPixels };
+    Sphere* middle = new Sphere{};
+    middle->transformation = new Matrix{ translation(-0.5, 1, 0.5) };
+    middle->material.color = Color{ 0.1, 1.0, 0.5 };
+    middle->material.diffuse = 0.7;
+    middle->material.specular = 0.3;
 
-    for (int row = 0; row < c.height(); ++row) {
+    Sphere* right = new Sphere{};
+    right->transformation = new Matrix{ translation(1.5, 0.5, -0.5)  * scaling(0.5, 0.5, 0.5)};
+    right->material.color = Color{ 0.5, 1.0, 0.1 };
+    right->material.diffuse = 0.7;
+    right->material.specular = 0.3;
 
-        auto worldY = half - pixelSize * row;
-        for (int col = 0; col < c.width(); ++col) {
-            auto worldX = -half + pixelSize * col;
-            //std::cout << "PROCESSING " << row << ", " << col << std::endl;
-            point3 pos{ worldX, worldY, wallZ };
+    Sphere* left = new Sphere{};
+    left->transformation = new Matrix{ translation(-1.5, 0.33, -0.75) * scaling(0.33, 0.33, 0.33) };
+    left->material.color = Color{ 1.0, 0.8, 0.1 };
+    left->material.diffuse = 0.7;
+    left->material.specular = 0.3;
 
-            ray r{ rayPoint, normalize(pos - rayPoint)};
-            auto xs = intersect(s, r);
-            if (xs.size() > 0) {
-                // std::cout << "HIT AT " << row << ", " << col << std::endl;
-                // Color color{ 255, 0, 0 };
-                auto p = position(r, xs[0].t);
-                auto normal = normalAt(s, p);
-                auto eye = -r.Direction();
-                auto color = lighting(m, light, p, eye, normal);
-                c.writePixel(row, col, color);
-            }
-        }
-    }
+    std::vector<Sphere*> spheres{left, right, middle, rightWall, leftWall, floor};
+    PointLight pointLight{ point3{-10, 10, -10}, Color{1, 1, 1} };
+    World world{ pointLight, spheres };
+
+    Camera camera{ 1000, 500, static_cast<float>(M_PI) / 3.0f };
+    camera.transformation = new Matrix{
+        viewTransformation(
+            point3{0.0, 1.5, -5.0},
+            point3{0, 1, 0},
+            vec3{0, 1, 0})
+    };
+
+    Canvas c = render(camera, world);
 
     PPMFileWriter writer;
-    writer.WriteToPPMFile(c, "circle.ppm");
+    writer.WriteToPPMFile(c, "chapter7.ppm");
 
 }
 

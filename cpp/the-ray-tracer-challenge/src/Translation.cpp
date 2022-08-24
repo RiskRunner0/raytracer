@@ -79,3 +79,21 @@ Matrix shearing(float xy, float xz, float yx, float yz, float zx, float zy)
 	};
 	return Matrix{4, 4, values};
 }
+
+Matrix viewTransformation(vec3 from, vec3 to, vec3 up) {
+	auto forward = normalize(to - from);
+	auto upn = normalize(up);
+	auto left = cross(forward, upn);
+	auto trueUp = cross(left, forward);
+
+	float values[] = {
+		left.x(),		left.y(),		left.z(),		0,
+		trueUp.x(),		trueUp.y(),		trueUp.z(),		0,
+		-forward.x(),	-forward.y(),	-forward.z(),	0,
+		0,				0,				0,				1,
+	};
+
+	Matrix orientation{ 4, 4, values };
+
+	return orientation * translation(-from.x(), -from.y(), -from.z());
+}

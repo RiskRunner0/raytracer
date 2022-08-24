@@ -152,13 +152,13 @@ TEST(VectorTests, CrossProduct)
 	vec3 b{2, 3, 4};
 
 	vec3 expected{-1, 2, -1};
-	auto actual = a.cross(b);
+	auto actual = cross(a, b);
 
 	EXPECT_EQ(typeid(actual), typeid(vec3));
 	EXPECT_EQ(expected, actual);
 
 	expected = vec3{1, -2, 1};
-	actual = b.cross(a);
+	actual = cross(b, a);
 
 	EXPECT_EQ(typeid(actual), typeid(vec3));
 	EXPECT_EQ(expected, actual);
