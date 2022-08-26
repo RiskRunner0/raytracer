@@ -3,9 +3,10 @@
 PointLight::PointLight(point3 position, Color intensity) : position(position), intensity(intensity)
 {}
 
-Color lighting(Material& m, PointLight& light, point3& position, vec3& eyeV, vec3& normalV) {
+Color lighting(Material& m, PointLight& light, point3& position, vec3& eyeV, vec3& normalV, bool isShadow) {
 	// combine the surface color with the light's color/intensity
 	Color effectiveColor = m.color * light.intensity;
+	Color black{ 0, 0, 0 };
 
 	// find the direction to the light source
 	vec3 lightV = normalize(light.position - position);
@@ -20,9 +21,9 @@ Color lighting(Material& m, PointLight& light, point3& position, vec3& eyeV, vec
 
 	Color diffuse;
 	Color specular;
-	if (lightDotNormal < 0) {
-		diffuse = Color{ 0, 0, 0 };
-		specular = Color{ 0, 0, 0 };
+	if (lightDotNormal < 0 || isShadow) {
+		diffuse = black;
+		specular = black;
 	}
 	else {
 		// compute the diffuse contribution

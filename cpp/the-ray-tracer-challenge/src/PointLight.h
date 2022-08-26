@@ -13,7 +13,7 @@ public:
 	point3 position;
 };
 
-Color lighting(Material& m, PointLight& light, point3& position, vec3& eyeV, vec3& normalV);
+Color lighting(Material& m, PointLight& light, point3& position, vec3& eyeV, vec3& normalV, bool isShadowed);
 
 inline
 bool operator==(const PointLight& lhs, const PointLight& rhs) {

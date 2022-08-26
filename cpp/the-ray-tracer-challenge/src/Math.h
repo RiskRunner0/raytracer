@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-#define EPSILON 0.00001;
+#define EPSILON static_cast<float>(0.00001)
 
 inline bool floatEqual(float a, float b) {
 	auto diff = fabsf(a - b);

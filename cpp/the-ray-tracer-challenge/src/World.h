@@ -6,6 +6,7 @@
 #include <vector>
 #include "Translation.h"
 #include <algorithm>
+#include "vec3.h"
 
 class World {
 public:
@@ -19,6 +20,7 @@ struct PreparedComputations {
 	float   t;
 	Sphere* object;
 	point3  point;
+	point3  overPoint;
 	vec3    eyeV;
 	vec3    normalV;
 	bool	inside = false;
@@ -33,3 +35,5 @@ PreparedComputations prepareComputations(Intersection& i, ray& r);
 Color shadeHit(World world, PreparedComputations comps);
 
 Color colorAt(World& world, ray& r);
+
+bool isShadowed(World world, point3 point);

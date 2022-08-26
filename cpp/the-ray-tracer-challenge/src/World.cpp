@@ -54,6 +54,7 @@ PreparedComputations prepareComputations(Intersection& i, ray& r) {
 	comps.point = position(r, comps.t);
 	comps.eyeV = -r.direction;
 	comps.normalV = normalAt(*comps.object, comps.point);
+	comps.overPoint = comps.point + comps.normalV * EPSILON;
 
 	if (dot(comps.normalV, comps.eyeV) < 0) {
 		comps.inside = true;
@@ -64,7 +65,8 @@ PreparedComputations prepareComputations(Intersection& i, ray& r) {
 }
 
 Color shadeHit(World world, PreparedComputations comps) {
-	return lighting(comps.object->material, world.light, comps.point, comps.eyeV, comps.normalV);
+	bool isShadow = isShadowed(world, comps.overPoint);
+	return lighting(comps.object->material, world.light, comps.overPoint, comps.eyeV, comps.normalV, isShadow);
 }
 
 Color colorAt(World& world, ray& r) {
@@ -79,4 +81,17 @@ Color colorAt(World& world, ray& r) {
 	auto retVal = shadeHit(world, precomp);
 
 	return retVal;
+}
+
+bool isShadowed(World world, point3 point) {
+	vec3 v = world.light.position - point;
+	auto distance = v.magnitude();
+	auto direction = normalize(v);
+
+	ray r{ point, direction };
+	auto intersections = intersectWorld(world, r);
+	
+	auto h = hit(intersections);
+
+	return h != nullptr && h->t < distance;
 }
