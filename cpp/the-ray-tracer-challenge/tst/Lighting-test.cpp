@@ -122,7 +122,7 @@ TEST(LightingTests, ShadeHitGivenAnIntersectionToShadow) {
 	w.spheres.push_back(&s1);
 
 	Sphere s2{};
-	s2.transformation = new Matrix(translation(0, 0, 10));
+	s2.SetTransformation(new Matrix(translation(0, 0, 10)));
 
 	w.spheres.push_back(&s2);
 
@@ -138,14 +138,14 @@ TEST(LightingTests, ShadeHitGivenAnIntersectionToShadow) {
 }
 
 TEST(LightingTests, HitShouldOffsetPoint) {
-	ray r{ point3{0, 0, -5}, vec3{0, 0, -1} };
+	ray r{ point3{0, 0, -5}, vec3{0, 0, 1} };
 	Sphere shape{};
-	shape.transformation = new Matrix(translation(0, 0, 1));
+	shape.SetTransformation(new Matrix(translation(0, 0, 1)));
 
 	Intersection i{ 5, &shape };
 
 	auto comps = prepareComputations(i, r);
 
-	EXPECT_TRUE(comps.overPoint.z() < (- (float)EPSILON / 2.0f));
+	EXPECT_TRUE(comps.overPoint.z() < (-EPSILON / 2.0f));
 	EXPECT_TRUE(comps.point.z() > comps.overPoint.z());
 }

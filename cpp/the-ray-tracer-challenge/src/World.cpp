@@ -1,22 +1,22 @@
 #include "World.h"
 
-World::World(PointLight light, std::vector<Sphere*> spheres) : light(light), spheres(spheres) {}
+World::World(PointLight light, std::vector<Shape*> spheres) : light(light), spheres(spheres) {}
 
 World MakeDefaultWorld() {
 
 	 PointLight light{ point3{-10, 10, -10}, Color{1, 1, 1} };
 
 	 Sphere s1{};
-	 Material m{};
-	 m.color = Color{ 0.8f, 1.0f, 0.6f };
-	 m.diffuse = 0.7f;
-	 m.specular = 0.2f;
-	 s1.material = m;
+	 Material* m = new Material{};
+	 m->color = Color{ 0.8f, 1.0f, 0.6f };
+	 m->diffuse = 0.7f;
+	 m->specular = 0.2f;
+	 s1.SetMaterial(m);
 
 	 Sphere s2{};
-	 s2.transformation = new Matrix{ scaling(0.5, 0.5, 0.5) };
+	 s2.SetTransformation(new Matrix{ scaling(0.5, 0.5, 0.5) });
 
-	 std::vector<Sphere*> vec{};
+	 std::vector<Shape*> vec{};
 	 vec.push_back(new Sphere(s1));
 	 vec.push_back(new Sphere(s2));
 	 World w{ light, vec };
@@ -29,7 +29,7 @@ std::vector<Intersection> intersectWorld(const World& w, ray& r) {
 	std::vector<Intersection> result{};
 
 	for (int i = 0; i < w.spheres.size(); ++i) {
-		Sphere* el = w.spheres[i];
+		Shape* el = w.spheres[i];
 
 		auto ints = intersect(el, r);
 
@@ -54,19 +54,20 @@ PreparedComputations prepareComputations(Intersection& i, ray& r) {
 	comps.point = position(r, comps.t);
 	comps.eyeV = -r.direction;
 	comps.normalV = normalAt(*comps.object, comps.point);
-	comps.overPoint = comps.point + comps.normalV * EPSILON;
 
 	if (dot(comps.normalV, comps.eyeV) < 0) {
 		comps.inside = true;
 		comps.normalV = -comps.normalV;
 	}
 
+	comps.overPoint = comps.point + comps.normalV * EPSILON;
+
 	return comps;
 }
 
 Color shadeHit(World world, PreparedComputations comps) {
 	bool isShadow = isShadowed(world, comps.overPoint);
-	return lighting(comps.object->material, world.light, comps.overPoint, comps.eyeV, comps.normalV, isShadow);
+	return lighting(*comps.object->GetMaterial(), world.light, comps.overPoint, comps.eyeV, comps.normalV, isShadow);
 }
 
 Color colorAt(World& world, ray& r) {

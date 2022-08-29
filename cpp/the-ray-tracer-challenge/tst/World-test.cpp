@@ -10,20 +10,22 @@ TEST(WorldTests, DefaultWorld) {
 	PointLight light{ point3{-10, 10, -10}, Color{1.0, 1.0, 1.0} };
 	
 	Sphere s1{};
-	Material m{};
-	m.color = Color{ 0.8, 1.0, 0.6 };
-	m.diffuse = 0.7f;
-	m.specular = 0.2f;
-	s1.material = m;
+	Material* m = new Material{};
+	m->color = Color{ 0.8, 1.0, 0.6 };
+	m->diffuse = 0.7f;
+	m->specular = 0.2f;
+	s1.SetMaterial(m);
 
 	Sphere s2{};
-	s2.transformation = new Matrix{ scaling(0.5, 0.5, 0.5) };
+	s2.SetTransformation(new Matrix{scaling(0.5, 0.5, 0.5)});
 
 	World defaultWorld = MakeDefaultWorld();
 
 	EXPECT_EQ(defaultWorld.light, light);
-	EXPECT_EQ(*defaultWorld.spheres[0], s1);
-	EXPECT_EQ(*defaultWorld.spheres[1], s2);
+	Shape* first = defaultWorld.spheres[0];
+	Shape* second = defaultWorld.spheres[1];
+	EXPECT_TRUE(first->isEqual(s1));
+	EXPECT_TRUE(second->isEqual(s2));
 }
 
 TEST(WorldTests, IntersectAWorldWithARay) {
@@ -75,7 +77,7 @@ TEST(WorldTests, HitWhenIntersectionOccursInside) {
 TEST(WorldTests, ShadingAnIntersection) {
 	auto w = MakeDefaultWorld();
 	ray r{ point3{0, 0, -5}, vec3{0, 0, 1} };
-	Sphere* shape = w.spheres[0];
+	Shape* shape = w.spheres[0];
 	Intersection i{ 4, shape };
 
 	auto comps = prepareComputations(i, r);
@@ -89,7 +91,7 @@ TEST(WorldTests, ShadingAnIntersectionFromInside) {
 	auto w = MakeDefaultWorld();
 	w.light = PointLight{ point3{0.0, 0.25, 0.0}, Color{1, 1, 1} };
 	ray r{ point3{0, 0, 0}, vec3{0, 0, 1} };
-	Sphere* shape = w.spheres[1];
+	Shape* shape = w.spheres[1];
 	Intersection i{ 0.5, shape };
 
 	auto comps = prepareComputations(i, r);
@@ -119,14 +121,14 @@ TEST(WorldTests, ColorWhenRayHits) {
 
 TEST(WorldTests, ColorIntersectionBehindRay) {
 	auto w = MakeDefaultWorld();
-	Sphere* outer = w.spheres[0];
-	outer->material.ambient = 1;
-	Sphere* inner = w.spheres[1];
-	inner->material.ambient = 1;
+	Shape* outer = w.spheres[0];
+	outer->GetMaterial()->ambient = 1;
+	Shape* inner = w.spheres[1];
+	inner->GetMaterial()->ambient = 1;
 
 	ray r{ point3{0.0, 0.0, 0.75}, vec3{0, 0, -1} };
 	auto c = colorAt(w, r);
 
-	Color expectedColor(inner->material.color);
+	Color expectedColor(inner->GetMaterial()->color);
 	EXPECT_EQ(c, expectedColor);
 }

@@ -7,8 +7,8 @@ point3 position(ray r, float t) {
 	return r.origin + r.direction * t;
 }
 
-std::vector<Intersection> intersect(Sphere* s, ray& r) {
-	Matrix* inverseMat = inverse(*s->transformation);
+std::vector<Intersection> intersect(Shape* s, ray& r) {
+	Matrix* inverseMat = inverse(*s->GetTransformation());
 	if (inverseMat == nullptr) return std::vector<Intersection>();
 	ray r2 = transform(r, *inverseMat);
 	//delete inverseMat;

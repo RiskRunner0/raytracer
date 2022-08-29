@@ -1,17 +1,16 @@
 #pragma once
 
-#include "Object.h"
 #include <vector>
 #include <cstdarg>
 #include "Math.h"
-#include "Sphere.h"
+#include "Shape.h"
 
 class Intersection {
 public:
-	Intersection(float t, Sphere* o);
+	Intersection(float t, Shape* o);
 
 	float t;
-	Sphere* object;
+	Shape* object;
 };
 
 inline
@@ -19,7 +18,7 @@ bool operator==(const Intersection& lhs, const Intersection& rhs) {
 	bool closeT = floatEqual(lhs.t, rhs.t);
 	auto lhsRef = lhs.object;
 	auto rhsRef = rhs.object;
-	return closeT && *lhsRef == *rhsRef;
+	return closeT && lhsRef->isEqual(*rhsRef);
 }
 
 std::vector<Intersection> intersections(std::vector<Intersection>& ints);

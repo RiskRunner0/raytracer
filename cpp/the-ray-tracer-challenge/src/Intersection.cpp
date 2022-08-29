@@ -1,6 +1,6 @@
 #include "Intersection.h"
 
-Intersection::Intersection(float t, Sphere* o) : t(t), object(o) {}
+Intersection::Intersection(float t, Shape* o) : t(t), object(o) {}
 
 std::vector<Intersection> intersections(std::vector<Intersection>& ints) {
 	return ints;

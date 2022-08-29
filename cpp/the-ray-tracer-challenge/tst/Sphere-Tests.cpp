@@ -49,7 +49,7 @@ TEST(SphereTests, NormalVectorIsNormalized)
 TEST(SphereTests, ComputingNormalOnTranslatedSphere)
 {
 	Sphere s{};
-	s.transformation = new Matrix{ translation(0, 1, 0) };
+	s.SetTransformation(new Matrix{translation(0, 1, 0)});
 
 	auto n = normalAt(s, point3{ 0.0f, 1.70711f, -0.70711f });
 	auto expected = vec3{ 0.0f, 0.70711f, -0.70711f };
@@ -61,7 +61,7 @@ TEST(SphereTests, ComputingNormalOnTransformedSphere)
 {
 	Sphere s{};
 	auto m = scaling(1, 0.5, 1) * rotation_z((float)M_PI / 5);
-	s.transformation = new Matrix{ m };
+	s.SetTransformation(new Matrix{ m });
 
 	auto n = normalAt(s, point3{ 0.0f, (float)sqrt(2) / 2.0f, -(float)sqrt(2) / 2.0f });
 	auto expected = vec3{ 0.0, 0.97014, -0.24254 };

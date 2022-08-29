@@ -17,6 +17,6 @@ public:
 
 point3 position(ray r, float t);
 
-std::vector<Intersection> intersect(Sphere* s, ray& r);
+std::vector<Intersection> intersect(Shape* s, ray& r);
 
 ray transform(ray& r, Matrix& m);

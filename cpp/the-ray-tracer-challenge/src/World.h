@@ -10,15 +10,15 @@
 
 class World {
 public:
-	World(PointLight light, std::vector<Sphere*> spheres);
+	World(PointLight light, std::vector<Shape*> spheres);
 
 	PointLight light;
-	std::vector<Sphere*> spheres;
+	std::vector<Shape*> spheres;
 };
 
 struct PreparedComputations {
 	float   t;
-	Sphere* object;
+	Shape* object;
 	point3  point;
 	point3  overPoint;
 	vec3    eyeV;

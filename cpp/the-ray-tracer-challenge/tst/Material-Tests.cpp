@@ -31,8 +31,8 @@ TEST(MaterialTests, SphereHasDefaultMaterial)
 {
 	Sphere s{};
 
-	auto m = s.material;
+	Material* m = s.GetMaterial();
 	Material expected{};
 
-	EXPECT_EQ(m, expected);
+	EXPECT_EQ(*m, expected);
 }

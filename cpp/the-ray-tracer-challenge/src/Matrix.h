@@ -25,8 +25,6 @@ public:
 	float&  operator() (unsigned row, unsigned col);		// set
 	float   operator() (unsigned row, unsigned col) const;	// get
 
-	std::ostream& operator<<(std::ostream& os);
-
 private:
 	unsigned _rows;
 	unsigned _cols;
